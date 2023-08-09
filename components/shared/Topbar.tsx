@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { dark } from '@clerk/themes';
     
-
-
 function Topbar() {
     return (
     <nav className="topbar">
