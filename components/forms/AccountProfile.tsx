@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import * as z from "zod"
 import { ChangeEvent } from 'react';
 
@@ -33,10 +34,10 @@ const AccountProfile = ( { user, btnTitle }: Props ) => {
     const form = useForm({ 
         resolver: zodResolver(UserValidation),
         defaultValues: {
-            profile_photo: '',
-            name: '',
-            username: '',
-            bio: ''
+            profile_photo: user?.image || '',
+            name: user?.name || '',
+            username: user?.username || '',
+            bio: user?.bio || ''
         }
     });
 
@@ -70,20 +71,18 @@ const AccountProfile = ( { user, btnTitle }: Props ) => {
                             />
                         ) : (
                             <Image
-                                src="/asset/profile.svg"
+                                src="/assets/profile.svg"
                                 alt="profile photo"
-                                width={96}
-                                height={96}
-                                className="object-contain"    
-                                
+                                width={24}
+                                height={24}
+                                className="object-contain"          
                             />
                         )}
-                        
                     </FormLabel>
                     <FormControl className="flex-1 text-base-semibold text-gray-200">
                         <Input 
                             type="file"
-                            accept="image/*"
+                            accept="image/* "
                             placeholder="Upload a photo"
                             className="account-form_image-input"
                             onChange={(e) => handleImage(e, field.onChange)} />
@@ -91,7 +90,70 @@ const AccountProfile = ( { user, btnTitle }: Props ) => {
                     </FormItem>
                 )}
                 />
-                <Button type="submit">Submit</Button>
+
+
+                <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                    <FormItem className='flex x-full gap-3 flex-col'>
+                    <FormLabel className='text-base-semibold text-light-2'>
+                       Name
+                    </FormLabel>
+                    <FormControl className="flex-1 text-base-semibold text-gray-200">
+                        <Input
+                            type='text' 
+                            className="account-form_input no-focus"
+                            {...field}
+                        />
+                    </FormControl>
+                    </FormItem>
+                )}
+                />
+
+                <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                    <FormItem className='flex x-full gap-3 flex-col'>
+                    <FormLabel className='text-base-semibold text-light-2'>
+                       Username
+                    </FormLabel>
+                    <FormControl className="flex-1 text-base-semibold text-gray-200">
+                        <Input
+                            type='text' 
+                            className="account-form_input no-focus"
+                            {...field}
+                        />
+                    </FormControl>
+                    </FormItem>
+                )}
+                />
+
+                
+                <FormField
+                control={form.control}
+                name="bio"
+                render={({ field }) => (
+                    <FormItem className='flex x-full gap-3 flex-col'>
+                    <FormLabel className='text-base-semibold text-light-2'>
+                       Bio
+                    </FormLabel>
+                    <FormControl className="flex-1 text-base-semibold text-gray-200">
+                        <Textarea
+                            rows={10} 
+                            className="account-form_input no-focus"
+                            {...field}
+                        />
+                    </FormControl>
+                    </FormItem>
+                )}
+                />
+
+                
+
+
+                <Button type="submit" className=''>Submit</Button>
             </form>
          </Form>
     )
