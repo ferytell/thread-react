@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
-import { connectToDB } from "../mongoose"
+import { connectToDB } from "../mongoose";
 
 
 interface Params {
@@ -13,6 +13,7 @@ interface Params {
     image: string;
     path: string;
 }
+
 export async function updateUser({
     userId, 
     username,
@@ -46,4 +47,15 @@ export async function updateUser({
     }
 
 
+}
+
+export async function fetchUser(userId: string) {
+    try {
+        connectToDB();
+
+        return await User
+        .findOne({ id: userId })
+    } catch (error: any) {
+        throw new Error(`Failed to fetch user: ${error.message}`)
+    }
 }
