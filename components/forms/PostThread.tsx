@@ -10,6 +10,7 @@ import { updateUser } from '@/lib/action/user.action';
 import { usePathname, useRouter } from 'next/navigation';
 import { ThreadValidation } from '@/lib/validation/thread';
 import { create } from "domain";
+import { createThread } from "@/lib/action/thread.action";
 
 
 
@@ -45,8 +46,15 @@ function PostThread({ userId }: { userId: string }) {
     });
 
 
-    const onSubmit = async() => {  
-        await createThread()
+    const onSubmit = async(values: z.infer<typeof ThreadValidation>) => {  
+        await createThread({ 
+            text: values.thread,
+            author: userId,
+            communityId:  null,
+            path: pathname
+        });
+
+        router.push("/");
       }
     return (
         <Form {...form}>
