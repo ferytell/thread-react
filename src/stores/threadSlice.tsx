@@ -121,6 +121,22 @@ const threadSlice = createSlice({
         state.error = action.payload as string;
       });
 
+    // Handle createThread**
+    builder
+      .addCase(createThread.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createThread.fulfilled, (state, action) => {
+        state.loading = false;
+        state.threads.unshift(action.payload); // Add the new thread to the top
+        state.thread = action.payload; // Optionally set the current thread
+      })
+      .addCase(createThread.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to create thread";
+      });
+
     // Posting a comment
     builder
       .addCase(postComment.pending, (state) => {

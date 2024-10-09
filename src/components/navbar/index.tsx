@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "../../stores";
 import { useAppDispatch } from "../hooks";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import "./index.css"; // Optional: Create and style the navbar
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const token = useSelector((state: RootState) => state.auth.token);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -53,6 +54,9 @@ const Navbar: React.FC = () => {
         <div className="navbar-links">
           {token ? (
             <>
+              <Link to="/create-thread" className="btn btn-create">
+                Create Thread
+              </Link>
               <Button
                 variant="contained"
                 onClick={handleClick}
@@ -77,12 +81,16 @@ const Navbar: React.FC = () => {
             </>
           ) : (
             <>
-              <Link to="/login" className="btn btn-login">
-                Login
-              </Link>
-              <Link to="/register" className="btn btn-register">
-                Register
-              </Link>
+              {/* Conditionally render links based on current path */}
+              {location.pathname === "/login" ? (
+                <Link to="/register" className="btn btn-register">
+                  Register
+                </Link>
+              ) : (
+                <Link to="/login" className="btn btn-login">
+                  Login
+                </Link>
+              )}
             </>
           )}
         </div>

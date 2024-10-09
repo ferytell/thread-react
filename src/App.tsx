@@ -16,6 +16,7 @@ import UserList from "./components/user-list";
 import { RootState } from "./stores";
 import { useSelector } from "react-redux";
 import CurrentUser from "./components/current-user";
+import CreateThread from "./components/create-thread";
 
 function App() {
   const token = useSelector((state: RootState) => state.auth.token);
@@ -33,7 +34,15 @@ function App() {
           path="/users"
           element={token ? <UserList /> : <Navigate to="/login" replace />}
         />
-        <Route path="/me" element={<CurrentUser />} />
+        <Route
+          path="/me"
+          element={token ? <CurrentUser /> : <Navigate to="/login" replace />}
+        />
+
+        <Route
+          path="/create-thread"
+          element={token ? <CreateThread /> : <Navigate to="/login" replace />}
+        />
       </Routes>
     </Router>
   );

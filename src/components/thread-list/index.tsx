@@ -9,6 +9,7 @@ import "./index.css";
 const ThreadList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { threads, loading } = useSelector((state: RootState) => state.thread);
+  const token = useSelector((state: RootState) => state.auth.token);
 
   useEffect(() => {
     dispatch(fetchThreads());
@@ -23,7 +24,8 @@ const ThreadList: React.FC = () => {
   return (
     <div className="container">
       <h1>Threads</h1>
-      <Link to="/create-thread">Create New Thread</Link>
+      {token ? <Link to="/create-thread">Create New Thread</Link> : <p></p>}
+
       <div className="thread-list">
         {threads.map((thread: Threads) => (
           <div key={thread.id} className="thread-item">

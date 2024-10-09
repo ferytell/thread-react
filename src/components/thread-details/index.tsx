@@ -11,9 +11,11 @@ import {
   CardMedia,
   Button,
   Typography,
+  Chip,
 } from "@mui/material";
 import "./index.css";
 import AddComment from "../add-comment";
+import { Tag } from "@mui/icons-material";
 
 const ThreadDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +35,8 @@ const ThreadDetail: React.FC = () => {
   if (!thread) {
     return <div>Thread not found</div>;
   }
-  const { title, body, owner, comments } = thread.data.detailThread;
+  const { title, body, owner, comments, createdAt, category } =
+    thread.data.detailThread;
   console.log(
     thread.data.detailThread,
     "\\=============================",
@@ -47,7 +50,7 @@ const ThreadDetail: React.FC = () => {
     <div className="container">
       {/* <h1>{thread.data.detailThread}</h1>
       <p>{thread.data}</p> */}
-      <p>By: {body}</p>
+      <p>By: {owner.name}</p>
       <h2>Comments</h2>
       <ul>
         {/* {thread.data.detailThread.map((comment: any) => (
@@ -74,8 +77,9 @@ const ThreadDetail: React.FC = () => {
             sx={{
               color: "text.secondary",
               fontSize: 14,
-              marginLeft: "auto",
-              marginRight: "auto",
+              fontWeight: "bold",
+              marginLeft: "25%",
+              marginRight: "25%",
             }}
           >
             {owner.name}
@@ -87,19 +91,20 @@ const ThreadDetail: React.FC = () => {
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            Word of the Day
+            {createdAt}
           </Typography>
           <Typography variant="h5" component="div">
-            sdsd
+            {title}
           </Typography>
-          <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
+          {/* <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
             adjective
-          </Typography>
-          <Typography variant="body2">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
-          </Typography>
+          </Typography> */}
+          <Chip
+            sx={{ paddingX: "8px", paddingY: "14px" }}
+            icon={<Tag sx={{ fontSize: 14 }} />}
+            label={category}
+          />
+          <Typography variant="body2">{body}</Typography>
           <AddComment />
         </CardContent>
         <CardActions>
