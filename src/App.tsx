@@ -9,7 +9,7 @@ import ThreadDetail from "./components/thread-details";
 import Login from "./components/login";
 import Register from "./components/register";
 import "./App.css";
-import Header from "./components/header";
+
 import Navbar from "./components/navbar";
 import PrivateRoute from "./components/PrivateRoute";
 import UserList from "./components/user-list";
@@ -23,7 +23,6 @@ function App() {
 
   return (
     <Router>
-      <Header />
       <Navbar />
       <Routes>
         <Route path="/" element={<ThreadList />} />

@@ -40,7 +40,11 @@ const CreateThread: React.FC = () => {
       const resultAction = await dispatch(createThread(data));
       if (createThread.fulfilled.match(resultAction)) {
         reset(); // Reset the form
-        navigate(`/thread/${resultAction.payload.id}`); // Navigate to the new thread's detail page
+        if (loading) {
+          return <div>Loading...</div>;
+        }
+        // navigate(`/thread/${resultAction.payload.id}`); // Navigate to the new thread's detail page
+        navigate(`/`);
       }
     } catch (err) {
       console.error("Failed to create thread:", err);

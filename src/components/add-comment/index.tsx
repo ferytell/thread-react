@@ -1,37 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { fetchCurrentUser } from "../../stores/userSlice";
+import { postComment } from "../../stores/threadSlice";
 import "./index.css"; // Import component-specific CSS
-import Button from "@mui/material/Button";
+
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   TextField,
+  Button,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const AddComment: React.FC = () => {
-  // const dispatch = useAppDispatch();
-  // const { currentUser, loading, error } = useAppSelector(
-  //   (state) => state.users
-  // )
+interface AddCommentProps {
+  threadId?: string;
+}
+
+const AddComment: React.FC<AddCommentProps> = ({ threadId }) => {
+  const dispatch = useAppDispatch();
+  const { currentUser, loading, error } = useAppSelector(
+    (state) => state.users
+  );
+  const [content, setContent] = useState("");
 
   // useEffect(() => {
-  //   dispatch(fetchCurrentUser());
+
   // }, [dispatch]);
+  const submitComment = () => {
+    console.log("I dont knwo");
+    dispatch(postComment({ threadId, content }));
+  };
 
-  // if (loading) {
-  //   return <p>Loading user information...</p>;
-  // }
-
-  // if (error) {
-  //   return <p className="error">Error: {error}</p>;
-  // }
-
-  // if (!currentUser) {
-  //   return <p>No user information available.</p>;
-  // }
+  const changeHandler = (e: any) => {
+    setContent(e.target.value);
+  };
 
   return (
     <div>
@@ -41,11 +43,19 @@ const AddComment: React.FC = () => {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          Comments
+          Add Comments
         </AccordionSummary>
         <AccordionDetails>
-          <TextField id="standard-basic" label="Standard" variant="standard" />
+          <TextField
+            id="standard-basic"
+            label="Input Comment here"
+            variant="standard"
+            onChange={changeHandler}
+          />
         </AccordionDetails>
+        <Button type="submit" onClick={submitComment}>
+          Submit Comment
+        </Button>
       </Accordion>
     </div>
   );
