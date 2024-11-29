@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../stores";
+//import { useDispatch } from "react-redux";
+// import { AppDispatch } from "../../stores";
 import reactLogo from "../../assets/img/react.svg";
 import Button from "@mui/material/Button";
 import "./index.css";
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 

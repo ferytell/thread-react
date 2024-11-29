@@ -22,7 +22,7 @@ export const login = createAsyncThunk<
     const response = await api.post("/login", credentials);
     const token = response.data.data.token;
     // Save token to localStorage
-    console.log(token, "=====d=f=d=fd");
+
     localStorage.setItem("token", token);
     return token;
   } catch (error: any) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Avatar,
@@ -10,10 +10,10 @@ import {
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import parse from "html-react-parser";
-
 import { formatDistanceToNow } from "date-fns";
-
 import "./index.css"; // Import component-specific CSS
+import { useAppDispatch } from "../hooks";
+import { downVoteComment, upVoteComment } from "../../stores/threadSlice";
 
 // import {
 //   Accordion,
@@ -22,8 +22,8 @@ import "./index.css"; // Import component-specific CSS
 //   TextField,
 //   Button,
 // } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useAppDispatch } from "../hooks";
+//import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import { useAppDispatch } from "../hooks";
 
 interface CommentsProps {
   items: Comment[];
@@ -51,28 +51,13 @@ interface DownVotesBy {
 
 const Comments: React.FC<CommentsProps> = ({ items, threadId }) => {
   const dispatch = useAppDispatch();
-  const [showReply, setShowReply] = useState(false);
+  const [showReply] = useState(false);
 
-  const handleReplyToggle = () => {
-    setShowReply((prev) => !prev);
+  const upvoteCommentAct = (commentId: string) => {
+    dispatch(upVoteComment({ threadId, commentId }));
   };
-
-  if (items.length > 0) {
-    console.log(
-      items,
-      "sdfsdfsdfdsfdsfds",
-      items[0].owner.name,
-      "testing jeee=ssssss=="
-    );
-  }
-
-  const upvoteCommentAct = () => {
-    console.log("I dont knwo");
-    //dispatch(upvoteComment({ threadId }));
-  };
-  const downvoteComment = () => {
-    console.log("doenVote");
-    // dispatch(postComment({ threadId, content }));
+  const downvoteCommentAct = (commentId: string) => {
+    dispatch(downVoteComment({ threadId, commentId }));
   };
 
   const Content: React.FC<CommentsProps> = ({ items }) => {
@@ -87,7 +72,7 @@ const Comments: React.FC<CommentsProps> = ({ items, threadId }) => {
                 alt="testing jee"
               />
               <Typography variant="subtitle1" fontWeight="bold">
-                {comment.owner.name} {/* Access the owner's name */}
+                {comment.owner.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" ml={1}>
                 • {formatDistanceToNow(new Date(comment.createdAt))} ago
@@ -106,7 +91,10 @@ const Comments: React.FC<CommentsProps> = ({ items, threadId }) => {
                 {comment.upVotesBy.length}
               </Typography>
               <Tooltip title="Upvote">
-                <IconButton onClick={upvoteCommentAct} size="small">
+                <IconButton
+                  onClick={() => upvoteCommentAct(comment.id)}
+                  size="small"
+                >
                   <ThumbUpAltOutlinedIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
@@ -114,7 +102,10 @@ const Comments: React.FC<CommentsProps> = ({ items, threadId }) => {
                 {comment.downVotesBy.length}
               </Typography>
               <Tooltip title="Downvote">
-                <IconButton onClick={downvoteComment} size="small">
+                <IconButton
+                  onClick={() => downvoteCommentAct(comment.id)}
+                  size="small"
+                >
                   <ThumbDownAltOutlinedIcon fontSize="small" />
                 </IconButton>
               </Tooltip>

@@ -9,9 +9,7 @@ import ThreadDetail from "./components/thread-details";
 import Login from "./components/login";
 import Register from "./components/register";
 import "./App.css";
-
 import Navbar from "./components/navbar";
-import PrivateRoute from "./components/PrivateRoute";
 import UserList from "./components/user-list";
 import { RootState } from "./stores";
 import { useSelector } from "react-redux";
@@ -26,7 +24,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<ThreadList />} />
-        <Route path="/thread/:id" element={<ThreadDetail />} />
+        <Route
+          path="/thread/:id"
+          element={token ? <ThreadDetail /> : <Navigate to="/login" replace />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route

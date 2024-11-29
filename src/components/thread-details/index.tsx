@@ -8,8 +8,8 @@ import {
   resetCommentSuccess,
   upvoteThread,
 } from "../../stores/threadSlice"; // Assuming you will create this slice
-import { RootState } from "../../stores";
-import { AppDispatch } from "../../stores";
+import { AppDispatch, RootState } from "../../stores";
+
 import {
   Card,
   CardActions,
@@ -29,6 +29,7 @@ import {
 } from "@mui/icons-material";
 import parse from "html-react-parser";
 import Comments from "../comments";
+import { formatDistanceToNow, isValid } from "date-fns";
 
 const ThreadDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -50,17 +51,22 @@ const ThreadDetail: React.FC = () => {
     }
   }, [commentSuccess, dispatch, id]);
 
+  //useDispatch
+
   const upvoteCommentAct = () => {
-    console.log("I dont knwo");
     dispatch(upvoteThread({ threadId: id }));
   };
   const neutralvoteComment = () => {
-    console.log("nettt");
     dispatch(neutralvoteThread({ threadId: id }));
   };
   const downvoteComment = () => {
-    console.log("doenVote");
     dispatch(downvoteThread({ threadId: id }));
+  };
+
+  const formattedDate = (createdAt: string | undefined) => {
+    if (!createdAt) return "Unknown time"; // Handle missing values
+    const date = new Date(createdAt);
+    return isValid(date) ? formatDistanceToNow(date) + " ago" : "Invalid time";
   };
 
   if (loading) {
@@ -80,38 +86,18 @@ const ThreadDetail: React.FC = () => {
     upVotesBy,
     downVotesBy,
   } = thread?.data?.detailThread || {};
-  console.log(
-    // thread.data.detailThread,
-    "\\=============================",
-
-    body,
-    owner,
-    comments
-  );
 
   return (
     <div className="container">
-      {/* <h1>{thread.data.detailThread}</h1>
-      <p>{thread.data}</p> */}
-      <p>By: {owner.name}</p>
+      <Typography component="div">By: {owner.name}</Typography>
       <h2>Comments</h2>
-      <ul>
-        {/* {thread.data.detailThread.map((comment: any) => (
-          <li key={comment.id}>
-            <p>{comment.body}</p>
-            <p>By: {comment.author.name}</p>
-          </li>
-        ))} */}
-      </ul>
+      <ul></ul>
       <Card sx={{ display: "flex", flexDirection: "row" }}>
         <div className="imgageContainer">
           <img src={owner.avatar} alt="user" className="imageProfile"></img>
-          {/* <CardMedia
-            sx={{ height: 140 }}
-            image={owner.avatar}
-            title="green iguana"
-          /> */}
+
           <Typography
+            component="div"
             gutterBottom
             sx={{
               color: "text.secondary",
@@ -127,28 +113,29 @@ const ThreadDetail: React.FC = () => {
 
         <CardContent>
           <Typography
-            gutterBottom
-            sx={{ color: "text.secondary", fontSize: 14 }}
+            component="div"
+            variant="body2"
+            color="textSecondary"
+            ml={1}
           >
-            {createdAt}
+            {formattedDate(createdAt)} ago
           </Typography>
           <Typography variant="h5" component="div">
             {title}
           </Typography>
-          {/* <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-            adjective
-          </Typography> */}
+
           <Chip
             sx={{ paddingX: "8px", paddingY: "14px" }}
             icon={<Tag sx={{ fontSize: 14 }} />}
             label={category}
           />
-          <Typography variant="body2">{parse(body)}</Typography>
+          <Typography component="div" variant="body2">
+            {parse(body)}
+          </Typography>
           <AddComment threadId={id} />
           <Comments items={comments} threadId={id} />
         </CardContent>
         <CardActions sx={{ display: "flex", flexDirection: "column" }}>
-          {/* <Button size="small">add Comments</Button> */}
           <div
             style={{
               display: "flex",
@@ -161,7 +148,9 @@ const ThreadDetail: React.FC = () => {
                 <SentimentVerySatisfied fontSize="large" />
               </IconButton>
             </Tooltip>
-            <Typography variant="caption">{upVotesBy.length}</Typography>
+            <Typography component="div" variant="caption">
+              {upVotesBy?.length}
+            </Typography>
           </div>
 
           <Tooltip title="This is Mid">
@@ -181,7 +170,9 @@ const ThreadDetail: React.FC = () => {
                 <MoodBad fontSize="large" />
               </IconButton>
             </Tooltip>
-            <Typography variant="caption">{downVotesBy.length}</Typography>
+            <Typography component="div" variant="caption">
+              {downVotesBy?.length}
+            </Typography>
           </div>
         </CardActions>
       </Card>

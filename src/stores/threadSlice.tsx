@@ -29,6 +29,19 @@ export interface Threads {
   upVotesBy: string[];
 }
 
+export interface EnhancedThread {
+  id: string;
+  title: string;
+  body: string;
+  category: string;
+  createdAt: string;
+  ownerId: string;
+  upVotesBy: string[];
+  downVotesBy: string[];
+  totalComments: number;
+  owner: string; // Optional because it may fail to load
+}
+
 // Async thunk for fetching threads
 export const fetchThreads = createAsyncThunk(
   "threads/fetchThreads",
@@ -45,7 +58,7 @@ export const fetchThreads = createAsyncThunk(
 // Async thunk for fetching a single thread by ID
 export const fetchThreadById = createAsyncThunk(
   "threads/fetchThreadById",
-  async (id: string, thunkAPI) => {
+  async (id: string | undefined, thunkAPI) => {
     try {
       const response = await api.get(`/threads/${id}`);
       return response.data;
@@ -119,6 +132,69 @@ export const neutralvoteThread = createAsyncThunk(
   async ({ threadId }: { threadId: string | undefined }, thunkAPI) => {
     try {
       const response = await api.post(`/threads/${threadId}/neutral-vote`, {});
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const upVoteComment = createAsyncThunk(
+  "threads/upVoteComment",
+  async (
+    {
+      threadId,
+      commentId,
+    }: { threadId: string | undefined; commentId: string | undefined },
+    thunkAPI
+  ) => {
+    try {
+      const response = await api.post(
+        `/threads/${threadId}/comments/${commentId}/up-vote`,
+        {}
+      );
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const downVoteComment = createAsyncThunk(
+  "threads/downVoteComment",
+  async (
+    {
+      threadId,
+      commentId,
+    }: { threadId: string | undefined; commentId: string | undefined },
+    thunkAPI
+  ) => {
+    try {
+      const response = await api.post(
+        `/threads/${threadId}/comments/${commentId}/down-vote`,
+        {}
+      );
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const neutralVoteComment = createAsyncThunk(
+  "threads/neutralVoteComment",
+  async (
+    {
+      threadId,
+      commentId,
+    }: { threadId: string | undefined; commentId: string | undefined },
+    thunkAPI
+  ) => {
+    try {
+      const response = await api.post(
+        `/threads/${threadId}/comments/${commentId}/neutral-vote`,
+        {}
+      );
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -258,6 +334,66 @@ const threadSlice = createSlice({
         }
       })
       .addCase(neutralvoteThread.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(upVoteComment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(upVoteComment.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.thread) {
+          console.log("call this== upvote comments");
+          if (!state.thread.comments) {
+            state.thread.comments = [];
+          }
+          state.thread.comments.push(action.payload);
+        }
+      })
+      .addCase(upVoteComment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(downVoteComment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(downVoteComment.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.thread) {
+          console.log("down");
+          if (!state.thread.comments) {
+            state.thread.comments = [];
+          }
+          state.thread.comments.push(action.payload);
+        }
+      })
+      .addCase(downVoteComment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(neutralVoteComment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(neutralVoteComment.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.thread) {
+          console.log("call this== upvote comments");
+          if (!state.thread.comments) {
+            state.thread.comments = [];
+          }
+          state.thread.comments.push(action.payload);
+        }
+      })
+      .addCase(neutralVoteComment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
