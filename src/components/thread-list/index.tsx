@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchThreads,
-  Threads,
   createThread,
   fetchThreadById,
   EnhancedThread,
@@ -51,7 +50,7 @@ const ThreadList: React.FC = () => {
   const { currentUser, loading: userLoading } = useSelector(
     (state: RootState) => state.users
   );
-  const { threads, loading: newThreadLoading } = useSelector(
+  const { loading: newThreadLoading } = useSelector(
     (state: RootState) => state.thread
   );
 
