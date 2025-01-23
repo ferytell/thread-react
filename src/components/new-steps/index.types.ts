@@ -1,6 +1,6 @@
 export interface FormData {
   step1: { name: string; email: string };
-  step2: { address: string };
+  step2: { address: string; phoneNumber: string };
   step3: { phoneNumber: string };
   step4: { company: string };
   step5: { jobTitle: string };

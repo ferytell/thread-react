@@ -6,30 +6,30 @@ const Step2Form: React.FC<StepProps> = ({ dispatch, data }) => {
   const [form] = Form.useForm();
 
   const handleSave = (values: any) => {
-    dispatch({ type: "SAVE_DATA", payload: { step1: values } });
+    dispatch({ type: "SAVE_DATA", payload: { step2: values } });
   };
 
   return (
     <Form
       form={form}
-      initialValues={data.step1 || {}}
+      initialValues={data.step2 || {}}
       onFinish={handleSave}
       layout="vertical"
     >
       <div>DUAAAAAA</div>
       <Form.Item
-        label="Name"
-        name="name"
-        rules={[{ required: true, message: "Name is required" }]}
+        label="Adress"
+        name="address"
+        rules={[{ required: true, message: "Address is required" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label="Email"
-        name="email"
+        label="phoneNumber"
+        name="phoneNumber"
         rules={[
-          { required: true, message: "Email is required" },
-          { type: "email", message: "Enter a valid email" },
+          { required: true, message: "phoneNumber is required" },
+          //   { type: "number", message: "Enter a Number bitch" },
         ]}
       >
         <Input />
