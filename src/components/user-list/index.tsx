@@ -20,7 +20,7 @@ const UserList: React.FC = () => {
   }
 
   return (
-    <div className="user-list-container">
+    <div className="container">
       <h2>All Users</h2>
       <ul className="user-list">
         {users.map((user: any) => (
@@ -31,12 +31,15 @@ const UserList: React.FC = () => {
               className="avatar"
             />
             <div className="user-info">
-              <p>
+              <h5>
                 <strong>Name:</strong> {user.name}
-              </p>
-              <p>
+              </h5>
+              <h5>
                 <strong>Email:</strong> {user.email}
-              </p>
+              </h5>
+              <h5>
+                <strong>ID:</strong> {user.id}
+              </h5>
             </div>
           </li>
         ))}
