@@ -30,7 +30,6 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
-    // Optionally, navigate to home or login page
   };
 
   const handleProfile = () => {
@@ -39,6 +38,10 @@ const Navbar: React.FC = () => {
 
   const handleMyProfile = () => {
     navigate("/me");
+  };
+
+  const handleTryStep = () => {
+    navigate("/new-steps");
   };
 
   return (
@@ -77,6 +80,7 @@ const Navbar: React.FC = () => {
                 <MenuItem onClick={handleProfile}>Profile</MenuItem>
                 <MenuItem onClick={handleMyProfile}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleTryStep}>NewSteps</MenuItem>
               </Menu>
             </>
           ) : (
