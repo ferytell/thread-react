@@ -24,6 +24,10 @@ const NewSteps: React.FC = () => {
 
   const CurrentForm = steps[state.currentStep].component;
 
+  const handleSave = () => {
+    console.log("Current Form Data:", state.formData); // Log the form data to console
+  };
+
   return (
     <div>
       <Header currentStep={state.currentStep} steps={steps} />
@@ -35,6 +39,7 @@ const NewSteps: React.FC = () => {
         totalSteps={steps.length}
         onNext={() => dispatch({ type: "NEXT_STEP" })}
         onPrev={() => dispatch({ type: "PREV_STEP" })}
+        onSave={handleSave} // Pass the save handler to the Footer
       />
     </div>
   );
