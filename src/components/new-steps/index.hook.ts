@@ -1,4 +1,3 @@
-import React, { useReducer } from "react";
 import { Action, FormData } from "./index.types";
 
 export const initialState = {

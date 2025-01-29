@@ -10,6 +10,7 @@ export interface FormData {
 export interface StepProps {
   dispatch: React.Dispatch<Action>;
   data: Partial<FormData>;
+  setSubmitHandler: (submitFn: () => void) => void;
 }
 
 export type Action =

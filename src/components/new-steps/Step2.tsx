@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { StepProps } from "./index.types";
 
-const Step2Form: React.FC<StepProps> = ({ dispatch, data }) => {
+const Step2Form: React.FC<StepProps> = ({
+  dispatch,
+  data,
+  setSubmitHandler,
+}) => {
   const [form] = Form.useForm();
+
+  // useEffect(() => {
+  //   setSubmitHandler(() => form.submit);
+  // }, [setSubmitHandler, form]);
+
+  React.useEffect(() => {
+    setSubmitHandler(() => {
+      form.submit();
+    });
+  }, [setSubmitHandler]);
 
   const handleSave = (values: any) => {
     dispatch({ type: "SAVE_DATA", payload: { step2: values } });

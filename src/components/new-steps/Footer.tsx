@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = ({
       >
         Next
       </Button>
-      <Button type="default" onClick={onSave}>
+      <Button type="default" onClick={onSave} htmlType="submit">
         Save
       </Button>
     </div>

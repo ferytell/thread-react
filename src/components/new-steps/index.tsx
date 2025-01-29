@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { Steps } from "antd";
+import { Form, Steps } from "antd";
 import Header from "./Header";
 import Footer from "./Footer";
 import Step1Form from "./Step1";
@@ -21,10 +21,15 @@ const steps = [
 
 const NewSteps: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const [form] = Form.useForm();
   const CurrentForm = steps[state.currentStep].component;
+  const submitHandlerRef = React.useRef<(() => void) | null>(null);
 
   const handleSave = () => {
+    console.log("harusnya");
+    if (submitHandlerRef.current) {
+      submitHandlerRef.current(); // Trigger the form submission manually
+    }
     console.log("Current Form Data:", state.formData); // Log the form data to console
   };
 
@@ -32,7 +37,11 @@ const NewSteps: React.FC = () => {
     <div>
       <Header currentStep={state.currentStep} steps={steps} />
       <div style={{ marginTop: "20px" }}>
-        <CurrentForm dispatch={dispatch} data={state.formData} />
+        <CurrentForm
+          dispatch={dispatch}
+          data={state.formData}
+          setSubmitHandler={(fn) => (submitHandlerRef.current = fn)}
+        />
       </div>
       <Footer
         currentStep={state.currentStep}

@@ -6,13 +6,13 @@ const Step4Form: React.FC<StepProps> = ({ dispatch, data }) => {
   const [form] = Form.useForm();
 
   const handleSave = (values: any) => {
-    dispatch({ type: "SAVE_DATA", payload: { step1: values } });
+    dispatch({ type: "SAVE_DATA", payload: { step4: values } });
   };
 
   return (
     <Form
       form={form}
-      initialValues={data.step1 || {}}
+      initialValues={data.step4 || {}}
       onFinish={handleSave}
       layout="vertical"
     >
