@@ -2,18 +2,12 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import { StepProps } from "./index.types";
 
-const Step5Form: React.FC<StepProps> = ({ dispatch, data }) => {
-  const [form] = Form.useForm();
-
-  const handleSave = (values: any) => {
-    dispatch({ type: "SAVE_DATA", payload: { step5: values } });
-  };
-
+const Step5Form: React.FC<StepProps> = ({ form, data }) => {
   return (
     <Form
       form={form}
       initialValues={data.step5 || {}}
-      onFinish={handleSave}
+      //onFinish={handleSave}
       layout="vertical"
     >
       <div>55555555FIVE</div>

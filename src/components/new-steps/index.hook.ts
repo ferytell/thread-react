@@ -1,11 +1,16 @@
-import { Action, FormData } from "./index.types";
+import { Action, FormData, State } from "./index.types";
 
-export const initialState = {
+// export const initialState = {
+//   currentStep: 0,
+//   formData: {} as Partial<FormData>,
+// };
+
+export const initialState: State = {
   currentStep: 0,
-  formData: {} as Partial<FormData>,
+  formData: {},
 };
 
-export const reducer = (state: typeof initialState, action: Action) => {
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "NEXT_STEP":
       return { ...state, currentStep: state.currentStep + 1 };

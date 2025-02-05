@@ -3,31 +3,30 @@ import { Form, Input, Button } from "antd";
 import { StepProps } from "./index.types";
 
 const Step2Form: React.FC<StepProps> = ({
-  dispatch,
+  // dispatch,
   data,
-  setSubmitHandler,
+  //setSubmitHandler,
+  form,
 }) => {
-  const [form] = Form.useForm();
-
   // useEffect(() => {
   //   setSubmitHandler(() => form.submit);
   // }, [setSubmitHandler, form]);
 
-  React.useEffect(() => {
-    setSubmitHandler(() => {
-      form.submit();
-    });
-  }, [setSubmitHandler]);
+  // React.useEffect(() => {
+  //   setSubmitHandler(() => {
+  //     form.submit();
+  //   });
+  // }, [setSubmitHandler]);
 
-  const handleSave = (values: any) => {
-    dispatch({ type: "SAVE_DATA", payload: { step2: values } });
-  };
+  // const handleSave = (values: any) => {
+  //   dispatch({ type: "SAVE_DATA", payload: { step2: values } });
+  // };
 
   return (
     <Form
       form={form}
       initialValues={data.step2 || {}}
-      onFinish={handleSave}
+      // onFinish={handleSave}
       layout="vertical"
     >
       <div>DUAAAAAA</div>

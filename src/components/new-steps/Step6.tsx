@@ -2,20 +2,9 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import { StepProps } from "./index.types";
 
-const Step6Form: React.FC<StepProps> = ({ dispatch, data }) => {
-  const [form] = Form.useForm();
-
-  const handleSave = (values: any) => {
-    dispatch({ type: "SAVE_DATA", payload: { step6: values } });
-  };
-
+const Step6Form: React.FC<StepProps> = ({ form, data }) => {
   return (
-    <Form
-      form={form}
-      initialValues={data.step6 || {}}
-      onFinish={handleSave}
-      layout="vertical"
-    >
+    <Form form={form} initialValues={data.step6 || {}} layout="vertical">
       <div>66666666666666666666666666666666666666666</div>
       <Form.Item
         label="Name"

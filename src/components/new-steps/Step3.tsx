@@ -1,50 +1,65 @@
-import React, { useEffect } from "react";
-import { Form, Input, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Radio, RadioChangeEvent } from "antd";
 import { StepProps } from "./index.types";
 
+const style: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: 8,
+};
+
 const Step3Form: React.FC<StepProps> = ({
-  dispatch,
+  //dispatch,
   data,
-  setSubmitHandler,
+  //setSubmitHandler,
+  form,
 }) => {
-  const [form] = Form.useForm();
+  const [value, setValue] = useState(1);
 
-  useEffect(() => {
-    setSubmitHandler(() => form.submit);
-  }, [setSubmitHandler, form]);
-
-  const handleSave = (values: any) => {
-    dispatch({ type: "SAVE_DATA", payload: { step3: values } });
+  const onChange = (e: RadioChangeEvent) => {
+    setValue(e.target.value);
   };
 
   return (
     <Form
       form={form}
       initialValues={data.step3 || {}}
-      onFinish={handleSave}
+      //onFinish={handleSave}
       layout="vertical"
     >
       <div>STEPPPPPPPP3</div>
+
       <Form.Item
-        label="Name"
-        name="name"
-        rules={[{ required: true, message: "Name is required" }]}
+        label="Optionn"
+        name="option"
+        rules={[{ required: true, message: "Email is required" }]}
       >
-        <Input />
+        <Radio.Group
+          style={style}
+          onChange={onChange}
+          value={value}
+          options={[
+            { value: 1, label: "Option A" },
+            { value: 2, label: "Option B" },
+            { value: 3, label: "Option C" },
+            {
+              value: 4,
+              label: (
+                <>
+                  More...
+                  {value === 4 && (
+                    <Input
+                      variant="filled"
+                      placeholder="please input"
+                      style={{ width: 120, marginInlineStart: 12 }}
+                    />
+                  )}
+                </>
+              ),
+            },
+          ]}
+        />
       </Form.Item>
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[
-          { required: true, message: "Email is required" },
-          { type: "email", message: "Enter a valid email" },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Button type="primary" htmlType="submit">
-        Save
-      </Button>
     </Form>
   );
 };

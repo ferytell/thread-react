@@ -2,32 +2,25 @@ import React, { useCallback, useEffect } from "react";
 import { Form, Input } from "antd";
 import { StepProps } from "./index.types";
 
-const Step1Form: React.FC<StepProps> = ({
-  dispatch,
-  data,
-  setSubmitHandler,
-}) => {
-  const [form] = Form.useForm();
-  // const isMounted = useRef(false);
+const Step1Form: React.FC<StepProps> = ({ data, form }) => {
+  // const handleSubmit = useCallback(() => {
+  //   form.submit();
+  // }, [form]);
 
-  const handleSubmit = useCallback(() => {
-    form.submit();
-  }, [form]);
+  // useEffect(() => {
+  //   setSubmitHandler(handleSubmit); // ✅ Uses latest function reference
+  // }, [setSubmitHandler, handleSubmit]);
 
-  useEffect(() => {
-    setSubmitHandler(handleSubmit); // ✅ Uses latest function reference
-  }, [setSubmitHandler, handleSubmit]);
-
-  const handleSave = (values: any) => {
-    console.log("this one called");
-    dispatch({ type: "SAVE_DATA", payload: { step1: values } });
-  };
+  // const handleSave = (values: any) => {
+  //   console.log("Form data submitted:", values);
+  //   dispatch({ type: "SAVE_DATA", payload: { step1: values } });
+  // };
 
   return (
     <Form
       form={form}
       initialValues={data.step1 || {}}
-      onFinish={handleSave}
+      //onFinish={handleSave}
       layout="vertical"
     >
       <Form.Item

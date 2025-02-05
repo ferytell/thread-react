@@ -19,18 +19,44 @@ const steps = [
   { title: "Step 6", component: Step6Form },
 ];
 
+function timeout(delay: number) {
+  return new Promise((res) => setTimeout(res, delay));
+}
+
 const NewSteps: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [form] = Form.useForm();
   const CurrentForm = steps[state.currentStep].component;
-  const submitHandlerRef = React.useRef<(() => void) | null>(null);
+  //const submitHandlerRef = React.useRef<(() => void) | null>(null);
 
-  const handleSave = () => {
-    console.log("harusnya");
-    if (submitHandlerRef.current) {
-      submitHandlerRef.current(); // Trigger the form submission manually
+  // const handleSave = () => {
+  //   // if (submitHandlerRef.current) {
+  //   //   submitHandlerRef.current();
+  //   // }
+  //   form.submit();
+  //   console.log("Current Form Data:", state.formData);
+  // };
+
+  const handleSave = async () => {
+    try {
+      // Validate and get form values
+      const values = await form.validateFields();
+      console.log(
+        `Form data submitted for step ${state.currentStep + 1}:`,
+        values
+      );
+
+      // Dispatch the form data to update the state
+      dispatch({
+        type: "SAVE_DATA",
+        payload: { [`step${state.currentStep + 1}`]: values }, // Dynamically save data for the current step
+      });
+
+      // Log the updated state
+      console.log("Current Form Data:", state.formData);
+    } catch (error) {
+      console.error("Form validation failed:", error);
     }
-    console.log("Current Form Data:", state.formData); // Log the form data to console
   };
 
   return (
@@ -40,7 +66,8 @@ const NewSteps: React.FC = () => {
         <CurrentForm
           dispatch={dispatch}
           data={state.formData}
-          setSubmitHandler={(fn) => (submitHandlerRef.current = fn)}
+          //setSubmitHandler={(fn) => (submitHandlerRef.current = fn)}
+          form={form}
         />
       </div>
       <Footer
