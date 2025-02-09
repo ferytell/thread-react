@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.6.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
@@ -20,6 +21,7 @@
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.4.1",
     "html-react-parser": "^5.1.18",
     "mobx-state-tree": "^7.0.0",
     "quill": "^2.0.2",

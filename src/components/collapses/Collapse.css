@@ -1,0 +1,15 @@
+.collapse-icon {
+  transition: transform 0.3s ease;
+}
+
+.collapse-content {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+}
+
+.collapse-content.active {
+  max-height: 500px; /* Adjust based on your content */
+  opacity: 1;
+}

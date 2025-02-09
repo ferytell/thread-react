@@ -11,6 +11,8 @@ import {
 } from "antd";
 import { StepProps } from "./index.types";
 
+import Collapses from "../collapses";
+
 const style: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
@@ -61,41 +63,45 @@ const Step3Form: React.FC<StepProps> = ({
   return (
     <Card>
       <Card type="inner" title="Rencana Debitur Terkait Pinjaman di OCBC">
-        <Form
-          form={form}
-          initialValues={data.step3 || {}}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 24 }}
-          layout="vertical"
-        >
-          <Form.Item
-            //label="Optionn"
-            name="planningDebtur"
-            rules={[{ required: true, message: "Email is required" }]}
-          >
-            <Radio.Group
-              style={style}
-              onChange={onChange}
-              value={value}
-              //options={debiturPlant}
-            >
-              <Row gutter={24}>
-                <Col className="gutter-row" span={12}>
-                  <Radio value="red"> Red </Radio>
-                  <Radio value="green"> Green </Radio>
-                </Col>
-                <Col className="gutter-row" span={12}>
-                  <Radio value="yellow"> Yellow </Radio>
-                  <Radio value="blue"> Blue </Radio>
-                </Col>
-              </Row>
-            </Radio.Group>
-          </Form.Item>
+        <Collapses header="Panel 1">
+          <p>This is the content of Panel 1.</p>
 
-          <Col className="gutter-row" span={12}>
-            <div style={style}>col-6</div>
-          </Col>
-        </Form>
+          <Form
+            form={form}
+            initialValues={data.step3 || {}}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 24 }}
+            layout="vertical"
+          >
+            <Form.Item
+              //label="Optionn"
+              name="planningDebtur"
+              rules={[{ required: true, message: "Email is required" }]}
+            >
+              <Radio.Group
+                style={style}
+                onChange={onChange}
+                value={value}
+                //options={debiturPlant}
+              >
+                <Row gutter={24}>
+                  <Col className="gutter-row" span={12}>
+                    <Radio value="red"> Red </Radio>
+                    <Radio value="green"> Green </Radio>
+                  </Col>
+                  <Col className="gutter-row" span={12}>
+                    <Radio value="yellow"> Yellow </Radio>
+                    <Radio value="blue"> Blue </Radio>
+                  </Col>
+                </Row>
+              </Radio.Group>
+            </Form.Item>
+
+            <Col className="gutter-row" span={12}>
+              <div style={style}>col-6</div>
+            </Col>
+          </Form>
+        </Collapses>
       </Card>
     </Card>
   );
