@@ -186,3 +186,24 @@ Would you like to add drag-and-drop, reorder photos, or upload progress indicato
 
 
 
+=====================
+export const postLoanInfos = async (payload: object) => {
+  return api
+    .post('/loan-infos', {
+      payload: payload,
+    })
+    .then(({ data }) => {
+      return {
+        code: data.code,
+        data: data.data || [],
+        message: data.message,
+      }
+    })
+    .catch(err => {
+      return {
+        code: err.code,
+        data: [],
+        message: err.data ? err.data.message : err.message,
+      }
+    })
+}
