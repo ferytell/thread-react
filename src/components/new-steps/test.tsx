@@ -1,4 +1,72 @@
-// import { saveAs } from 'file-saver';
+
+import React, { ReactNode } from 'react';
+import './CustomModal.css'; // Import CSS for styling
+
+interface ModalProps {
+  isOpen: boolean;
+  title?: string;
+  children: ReactNode;
+  onClose: () => void;
+}
+
+const CustomModal: React.FC<ModalProps> = ({ isOpen, title, children, onClose }) => {
+  if (!isOpen) return null; // Don't render if modal is closed
+
+  return (
+    <div className="modal-overlay" onClick={onClose} aria-hidden="true">
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>{title}</h2>
+          <button className="close-btn" onClick={onClose}>&times;</button>
+        </div>
+        <div className="modal-body">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+export default CustomModal;
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-body {
+  margin-top: 10px;
+    }
+
 // import * as XLSX from 'xlsx';
 
 // export const exportToExcel = (data:any, fileName: string) => {
