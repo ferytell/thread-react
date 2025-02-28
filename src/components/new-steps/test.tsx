@@ -200,3 +200,49 @@ export const exportToExcel = async ({
   const blob = new Blob([buffer], { type: "application/octet-stream" });
   saveAs(blob, `${fileName}.xlsx`);
 };
+
+
+function FormBscore(props: MapsGeneric[], form: FormInstance<any>) {
+  const { states } = useGlobalState()
+  const [val, setVal] = useState()
+  console.log('sdsdsd', form.getFieldValue('bScoress'))
+  return (
+    <Form.List name="bScoress" initialValue={props.map(item => ({ label: item.label, value: '' }))}>
+      {fields => (
+        <Space>
+          {fields.map(({ key, name, ...restField }, index) => (
+            <div key={key}>
+              <Typography>{props[index].label}</Typography>
+              <Form.Item {...restField} name={[name, 'value']} rules={[{ required: true }]}>
+                <Input placeholder={props[index].label} value={val} disabled={states.isView} />
+              </Form.Item>
+            </div>
+          ))}
+        </Space>
+      )}
+    </Form.List>
+  )
+}
+
+
+useEffect(() => {
+    form.setFieldsValue({ reportType: loanInfo?.ReportType })
+
+    const currentBScore = form.getFieldValue('bScoress')
+    const updateBscore = currentBScore.map((item: any, index: any) => ({
+      ...item,
+      value: dataDebtor?.BScores[5 - index] ?? 0,
+    }))
+    form.setFieldsValue({ bScores: updateBscore })
+    setFormKey(prevKey => prevKey + 1)
+    console.log('here is what', form.getFieldValue('bScoress'))
+    console.log('here dataDebtor?.BScores', dataDebtor?.BScores, dataDebtor?.BScores[0])
+    console.log('here updateBscore', updateBscore)
+  }, [dataDebtor, loanInfo, form])
+
+
+export interface MapsGeneric {
+  label: string
+  value: string
+  num?: number
+}
