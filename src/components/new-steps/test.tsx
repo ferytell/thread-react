@@ -239,7 +239,15 @@ function FormBscore(props: MapsGeneric[], form: FormInstance<any>) {
     </Form.List>
   );
 }
-
+const onlyNumber = (e: any) => {
+    if (!/[0-9]|Backspace|ArrowLeft|ArrowRight|Delete|Tab|Enter/.test(e.key)) {
+      e.preventDefault()
+    }
+  }
+<Input
+                style={suffix ? { width: '120px', marginInlineEnd: '8px' } : {}}
+                onKeyDown={onlyNumber}
+              />
 // useEffect(() => {
 //     form.setFieldsValue({ reportType: loanInfo?.ReportType })
 
