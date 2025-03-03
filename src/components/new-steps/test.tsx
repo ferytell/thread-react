@@ -1,6 +1,9 @@
+import React, { ReactNode, useState } from "react";
+//import "./CustomModal.css"; // Import CSS for styling
 
-import React, { ReactNode } from 'react';
-import './CustomModal.css'; // Import CSS for styling
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
+import { Form, FormInstance, Input, Space, Typography } from "antd";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,7 +12,12 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const CustomModal: React.FC<ModalProps> = ({ isOpen, title, children, onClose }) => {
+const CustomModal: React.FC<ModalProps> = ({
+  isOpen,
+  title,
+  children,
+  onClose,
+}) => {
   if (!isOpen) return null; // Don't render if modal is closed
 
   return (
@@ -17,7 +25,9 @@ const CustomModal: React.FC<ModalProps> = ({ isOpen, title, children, onClose })
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{title}</h2>
-          <button className="close-btn" onClick={onClose}>&times;</button>
+          <button className="close-btn" onClick={onClose}>
+            &times;
+          </button>
         </div>
         <div className="modal-body">{children}</div>
       </div>
@@ -27,45 +37,44 @@ const CustomModal: React.FC<ModalProps> = ({ isOpen, title, children, onClose })
 
 export default CustomModal;
 
+// .modal-overlay {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: rgba(0, 0, 0, 0.5);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   z-index: 1000;
+// }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+// .modal-content {
+//   background: white;
+//   padding: 20px;
+//   border-radius: 8px;
+//   min-width: 300px;
+//   max-width: 500px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+// }
 
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  min-width: 300px;
-  max-width: 500px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+// .modal-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+// .close-btn {
+//   background: none;
+//   border: none;
+//   font-size: 20px;
+//   cursor: pointer;
+// }
 
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.modal-body {
-  margin-top: 10px;
-    }
+// .modal-body {
+//   margin-top: 10px;
+//     }
 
 // import * as XLSX from 'xlsx';
 
@@ -122,9 +131,6 @@ export default CustomModal;
 //   const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 //   saveAs(blob, `${fileName}.xlsx`);
 // };
-
-import ExcelJS from "exceljs";
-import { saveAs } from "file-saver";
 
 interface ExportToExcelOptions {
   datas: any[]; // Array of objects to export
@@ -201,48 +207,56 @@ export const exportToExcel = async ({
   saveAs(blob, `${fileName}.xlsx`);
 };
 
-
 function FormBscore(props: MapsGeneric[], form: FormInstance<any>) {
-  const { states } = useGlobalState()
-  const [val, setVal] = useState()
-  console.log('sdsdsd', form.getFieldValue('bScoress'))
+  const states = false;
+  const [val, setVal] = useState();
+  console.log("sdsdsd", form.getFieldValue("bScoress"));
   return (
-    <Form.List name="bScoress" initialValue={props.map(item => ({ label: item.label, value: '' }))}>
-      {fields => (
+    <Form.List
+      name="bScoress"
+      initialValue={props.map((item) => ({ label: item.label, value: "" }))}
+    >
+      {(fields) => (
         <Space>
           {fields.map(({ key, name, ...restField }, index) => (
             <div key={key}>
               <Typography>{props[index].label}</Typography>
-              <Form.Item {...restField} name={[name, 'value']} rules={[{ required: true }]}>
-                <Input placeholder={props[index].label} value={val} disabled={states.isView} />
+              <Form.Item
+                {...restField}
+                name={[name, "value"]}
+                rules={[{ required: true }]}
+              >
+                <Input
+                  placeholder={props[index].label}
+                  value={val}
+                  disabled={states}
+                />
               </Form.Item>
             </div>
           ))}
         </Space>
       )}
     </Form.List>
-  )
+  );
 }
 
+// useEffect(() => {
+//     form.setFieldsValue({ reportType: loanInfo?.ReportType })
 
-useEffect(() => {
-    form.setFieldsValue({ reportType: loanInfo?.ReportType })
-
-    const currentBScore = form.getFieldValue('bScoress')
-    const updateBscore = currentBScore.map((item: any, index: any) => ({
-      ...item,
-      value: dataDebtor?.BScores[5 - index] ?? 0,
-    }))
-    form.setFieldsValue({ bScores: updateBscore })
-    setFormKey(prevKey => prevKey + 1)
-    console.log('here is what', form.getFieldValue('bScoress'))
-    console.log('here dataDebtor?.BScores', dataDebtor?.BScores, dataDebtor?.BScores[0])
-    console.log('here updateBscore', updateBscore)
-  }, [dataDebtor, loanInfo, form])
-
+//     const currentBScore = form.getFieldValue('bScoress')
+//     const updateBscore = currentBScore.map((item: any, index: any) => ({
+//       ...item,
+//       value: dataDebtor?.BScores[5 - index] ?? 0,
+//     }))
+//     form.setFieldsValue({ bScores: updateBscore })
+//     setFormKey(prevKey => prevKey + 1)
+//     console.log('here is what', form.getFieldValue('bScoress'))
+//     console.log('here dataDebtor?.BScores', dataDebtor?.BScores, dataDebtor?.BScores[0])
+//     console.log('here updateBscore', updateBscore)
+//   }, [dataDebtor, loanInfo, form])
 
 export interface MapsGeneric {
-  label: string
-  value: string
-  num?: number
+  label: string;
+  value: string;
+  num?: number;
 }
