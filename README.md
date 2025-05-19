@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+# CityCare App Starter Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Pengantar
 
-## Available Scripts
+Starter project ini dirancang sebagai bahan pelajaran siswa di kelas [Belajar Pengembangan Web Intermediate](https://www.dicoding.com/academies/219).
 
-In the project directory, you can run:
+## Deskripsi
+CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan warga Indonesia melaporkan masalah secara langsung kepada pemerintah kota. Dengan aplikasi ini, komunikasi antara warga dan pemerintah menjadi lebih efisien dalam menangani dan menindaklanjuti laporan kerusakan fasilitas umum.
 
-### `npm start`
+## Prasyarat
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Node.js (disarankan versi terbaru)
+- npm atau yarn
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Instalasi
 
-### `npm test`
+- Unduh starter project [citycareapp-starter-project.zip](https://raw.githubusercontent.com/dicodingacademy/a219-web-intermediate-labs/099-shared-files/citycareapp-starter-project.zip).
+- Unzip berkas ZIP yang telah diunduh. Bisa pakai perintah berikut untuk Linux:
+  ```bash
+  unzip ./citycareapp-starter-project.zip
+  ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Masuk ke direktori proyek:
+  ```bash
+  cd citycareapp-starter-project
+  ```
 
-### `npm run build`
+- Pasang seluruh dependensi:
+  ```bash
+  npm install
+  ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Scripts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `npm run build`: Membuat build production menggunakan Webpack.
+- `npm run start-dev`: Menjalankan server development menggunakan Webpack Dev Server.
+- `npm run serve`: Menjalankan server HTTP untuk build yang sudah dibuat.
+- `npm run prettier`: Memeriksa format kode menggunakan Prettier.
+- `npm run prettier:write`: Memformat ulang kode menggunakan Prettier.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Struktur Proyek
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```plaintext
+citycareapp
+├── package.json            # Informasi dependensi proyek
+├── package-lock.json       # File lock untuk dependensi
+├── README.md               # Dokumentasi proyek
+├── webpack.common.js       # Konfigurasi Webpack (umum)
+├── webpack.dev.js          # Konfigurasi Webpack (development)
+├── webpack.prod.js         # Konfigurasi Webpack (production)
+└── src                     # Direktori utama untuk kode sumber
+    ├── index.html          # Berkas HTML utama
+    ├── public              # Direktori aset publik
+    │   ├── favicon.png     # Ikon situs
+    │   └── images          # Gambar yang digunakan dalam proyek
+    ├── scripts             # Direktori untuk kode JavaScript
+    │   ├── data            # Folder untuk API atau sumber data
+    │   ├── pages           # Halaman-halaman utama
+    │   ├── routes          # Pengaturan routing
+    │   ├── utils           # Helper dan utilitas
+    │   ├── templates.js    # Template HTML dinamis
+    │   ├── config.js       # Konfigurasi proyek
+    │   └── index.js        # Entry point aplikasi
+    └── styles              # File CSS
+        ├── responsives.css # Gaya untuk responsivitas
+        └── styles.css      # Gaya umum
+```
