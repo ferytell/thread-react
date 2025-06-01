@@ -82,7 +82,9 @@ export function setupSkipToContent(element, mainContent) {
 
 export function transitionHelper({ skipTransition = false, updateDOM }) {
   if (skipTransition || !document.startViewTransition) {
-    const updateCallbackDone = Promise.resolve(updateDOM()).then(() => undefined);
+    const updateCallbackDone = Promise.resolve(updateDOM()).catch((err) => {
+      console.error('DOM update failed:', err);
+    });
 
     return {
       ready: Promise.reject(Error('View transitions unsupported')),

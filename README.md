@@ -1,11 +1,12 @@
-# CityCare App Starter Project
+# Share Story Starter Project
 
 ## Pengantar
 
-Starter project ini dirancang sebagai bahan pelajaran siswa di kelas [Belajar Pengembangan Web Intermediate](https://www.dicoding.com/academies/219).
+Project ini dirancang sebagai tugas submission dicoding
 
 ## Deskripsi
-CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan warga Indonesia melaporkan masalah secara langsung kepada pemerintah kota. Dengan aplikasi ini, komunikasi antara warga dan pemerintah menjadi lebih efisien dalam menangani dan menindaklanjuti laporan kerusakan fasilitas umum.
+
+ShareStoryApp adalah aplikasi untuk saling berbagi cerita, foto dan lokasi.
 
 ## Prasyarat
 
@@ -14,15 +15,16 @@ CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan
 
 ## Instalasi
 
-- Unduh starter project [citycareapp-starter-project.zip](https://raw.githubusercontent.com/dicodingacademy/a219-web-intermediate-labs/099-shared-files/citycareapp-starter-project.zip).
-- Unzip berkas ZIP yang telah diunduh. Bisa pakai perintah berikut untuk Linux:
-  ```bash
-  unzip ./citycareapp-starter-project.zip
-  ```
+- Clone Poject
+
+```
+git clone ...
+```
 
 - Masuk ke direktori proyek:
+
   ```bash
-  cd citycareapp-starter-project
+  cd project
   ```
 
 - Pasang seluruh dependensi:
@@ -37,31 +39,3 @@ CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan
 - `npm run serve`: Menjalankan server HTTP untuk build yang sudah dibuat.
 - `npm run prettier`: Memeriksa format kode menggunakan Prettier.
 - `npm run prettier:write`: Memformat ulang kode menggunakan Prettier.
-
-## Struktur Proyek
-
-```plaintext
-citycareapp
-├── package.json            # Informasi dependensi proyek
-├── package-lock.json       # File lock untuk dependensi
-├── README.md               # Dokumentasi proyek
-├── webpack.common.js       # Konfigurasi Webpack (umum)
-├── webpack.dev.js          # Konfigurasi Webpack (development)
-├── webpack.prod.js         # Konfigurasi Webpack (production)
-└── src                     # Direktori utama untuk kode sumber
-    ├── index.html          # Berkas HTML utama
-    ├── public              # Direktori aset publik
-    │   ├── favicon.png     # Ikon situs
-    │   └── images          # Gambar yang digunakan dalam proyek
-    ├── scripts             # Direktori untuk kode JavaScript
-    │   ├── data            # Folder untuk API atau sumber data
-    │   ├── pages           # Halaman-halaman utama
-    │   ├── routes          # Pengaturan routing
-    │   ├── utils           # Helper dan utilitas
-    │   ├── templates.js    # Template HTML dinamis
-    │   ├── config.js       # Konfigurasi proyek
-    │   └── index.js        # Entry point aplikasi
-    └── styles              # File CSS
-        ├── responsives.css # Gaya untuk responsivitas
-        └── styles.css      # Gaya umum
-```

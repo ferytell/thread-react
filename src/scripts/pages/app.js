@@ -77,12 +77,35 @@ export default class App {
     });
   }
 
+  // async renderPage() {
+  //   const url = getActiveRoute();
+  //   const route = routes[url];
+
+  //   // Get page instance
+  //   const page = route();
+
+  //   const transition = transitionHelper({
+  //     updateDOM: async () => {
+  //       this.#content.innerHTML = await page.render();
+  //       page.afterRender();
+  //     },
+  //   });
+
+  //   transition.ready.catch(console.error);
+  //   transition.updateCallbackDone.then(() => {
+  //     scrollTo({ top: 0, behavior: 'instant' });
+  //     this.#setupNavigationList();
+  //   });
+  // }
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
 
     // Get page instance
     const page = route();
+    if (!page) console.log('hell null');
+    // ✅ Null check: user was redirected, do nothing
+    if (!page) return;
 
     const transition = transitionHelper({
       updateDOM: async () => {

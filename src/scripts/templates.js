@@ -1,8 +1,77 @@
 import { showFormattedDate } from './utils';
 
+export function generateErrorTemplate() {
+  return `
+    <div id="error-template" class="error-template">
+      <h2>Some Error Happen</h2>
+      <p>Saat ini, tidak ada yang dapat ditampilkan.</p>
+    </div>
+  `;
+}
+export function generateStoriesListEmptyTemplate() {
+  return `
+    <div class="stories-empty">
+      <i class="fas fa-book-open"></i>
+      <h3>No Stories Found</h3>
+      <p>Be the first to share your story!</p>
+    </div>
+  `;
+}
+export function generateSaveButtonTemplate() {
+  return `
+    <button id="save-button" class="btn save-button">
+      SAVe <i class="fas fa-bell"></i>
+    </button>
+  `;
+}
+export function generateRemoveButtonTemplate() {
+  return `
+    <button id="remove-button" class="btn remove-button">
+      REMove <i class="fas fa-bell"></i>
+    </button>
+  `;
+}
+export function generateSubscribeButtonTemplate() {
+  return `
+    <button id="subscribe-button" class="btn subscribe-button">
+      Subscribe <i class="fas fa-bell"></i>
+    </button>
+  `;
+}
+export function generateUnsubscribeButtonTemplate() {
+  return `
+    <button id="unsubscribe-button" class="btn unsubscribe-button">
+      Unsubscribe <i class="fas fa-bell-slash"></i>
+    </button>
+  `;
+}
+export function generateSaveReportButtonTemplate() {
+  return `
+    <button id="report-detail-save" class="btn btn-transparent">
+      Simpan laporan <i class="far fa-bookmark"></i>
+    </button>
+  `;
+}
+export function generateRemoveReportButtonTemplate() {
+  return `
+    <button id="report-detail-remove" class="btn btn-transparent">
+      Buang laporan <i class="fas fa-bookmark"></i>
+    </button>
+  `;
+}
 export function generateLoaderTemplate() {
   return `
     <div class="loader"></div>
+  `;
+}
+export function generateLoadMoreButton(hasMore) {
+  return `
+    <div class="load-more-container">
+      <button id="load-more-btn" class="btn-load-more" ${!hasMore ? 'disabled' : ''}>
+        ${hasMore ? 'Load More Stories' : 'All Stories Loaded'}
+        ${hasMore ? '<i class="fas fa-arrow-down"></i>' : '<i class="fas fa-check"></i>'}
+      </button>
+    </div>
   `;
 }
 
@@ -11,285 +80,233 @@ export function generateLoaderAbsoluteTemplate() {
     <div class="loader loader-absolute"></div>
   `;
 }
-
 export function generateMainNavigationListTemplate() {
   return `
-    <li><a id="report-list-button" class="report-list-button" href="#/">Daftar Laporan</a></li>
-    <li><a id="bookmark-button" class="bookmark-button" href="#/bookmark">Laporan Tersimpan</a></li>
+    <li><a id="story-list-button" class="story-list-button" href="#/">All Stories</a></li>
+    <li><a id="my-stories-button" class="my-stories-button" href="#/my-stories">My Stories</a></li>
   `;
 }
-
 export function generateUnauthenticatedNavigationListTemplate() {
   return `
-    <li id="push-notification-tools" class="push-notification-tools"></li>
     <li><a id="login-button" href="#/login">Login</a></li>
     <li><a id="register-button" href="#/register">Register</a></li>
+    <li><a id="guest-story-button" class="btn guest-story-button" href="#/add-guest">Share as Guest</a></li>
   `;
 }
-
 export function generateAuthenticatedNavigationListTemplate() {
   return `
-    <li id="push-notification-tools" class="push-notification-tools"></li>
-    <li><a id="new-report-button" class="btn new-report-button" href="#/new">Buat Laporan <i class="fas fa-plus"></i></a></li>
+    <li><a id="new-story-button" class="btn new-story-button" href="#/add">Share Story <i class="fas fa-plus"></i></a></li>
     <li><a id="logout-button" class="logout-button" href="#/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   `;
 }
-
-export function generateReportsListEmptyTemplate() {
+export function generateStoriesListErrorTemplate(message) {
   return `
-    <div id="reports-list-empty" class="reports-list__empty">
-      <h2>Tidak ada laporan yang tersedia</h2>
-      <p>Saat ini, tidak ada laporan kerusakan fasilitas umum yang dapat ditampilkan.</p>
+    <div class="stories-error">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h3>Error Loading Stories</h3>
+      <p>${message || 'Please try again later'}</p>
+      <button id="retry-button" class="btn-retry">
+        <i class="fas fa-sync-alt"></i> Try Again
+      </button>
     </div>
   `;
 }
-
-export function generateReportsListErrorTemplate(message) {
+export function generateStoryDetailErrorTemplate(message) {
   return `
-    <div id="reports-list-error" class="reports-list__error">
-      <h2>Terjadi kesalahan pengambilan daftar laporan</h2>
-      <p>${message ? message : 'Gunakan jaringan lain atau laporkan error ini.'}</p>
+    <div id="story-detail-error" class="story-detail__error">
+      <h2>Error loading story details</h2>
+      <p>${message ? message : 'Please try again later or use a different network.'}</p>
     </div>
   `;
 }
-
-export function generateReportDetailErrorTemplate(message) {
-  return `
-    <div id="reports-detail-error" class="reports-detail__error">
-      <h2>Terjadi kesalahan pengambilan detail laporan</h2>
-      <p>${message ? message : 'Gunakan jaringan lain atau laporkan error ini.'}</p>
-    </div>
-  `;
-}
-
-export function generateCommentsListEmptyTemplate() {
-  return `
-    <div id="report-detail-comments-list-empty" class="report-detail__comments-list__empty">
-      <h2>Tidak ada komentar yang tersedia</h2>
-      <p>Saat ini, tidak ada komentar yang dapat ditampilkan.</p>
-    </div>
-  `;
-}
-
-export function generateCommentsListErrorTemplate(message) {
-  return `
-    <div id="report-detail-comments-list-error" class="report-detail__comments-list__error">
-      <h2>Terjadi kesalahan pengambilan daftar komentar</h2>
-      <p>${message ? message : 'Gunakan jaringan lain atau laporkan error ini.'}</p>
-    </div>
-  `;
-}
-
-export function generateReportItemTemplate({
+export function generateStoryItemTemplate({
   id,
-  title,
   description,
-  evidenceImages,
-  reporterName,
+  photoUrl,
+  name,
   createdAt,
-  location,
+  lat,
+  lon,
 }) {
+  const hasLocation = lat && lon;
+
   return `
-    <div tabindex="0" class="report-item" data-reportid="${id}">
-      <img class="report-item__image" src="${evidenceImages[0]}" alt="${title}">
-      <div class="report-item__body">
-        <div class="report-item__main">
-          <h2 id="report-title" class="report-item__title">${title}</h2>
-          <div class="report-item__more-info">
-            <div class="report-item__createdat">
-              <i class="fas fa-calendar-alt"></i> ${showFormattedDate(createdAt, 'id-ID')}
+    <div tabindex="0" class="story-item" data-storyid="${id}">
+      <img class="story-item__image" src="${photoUrl}" alt="${description.substring(0, 50)}...">
+      <div class="story-item__body">
+        <div class="story-item__main">
+          <div class="story-item__description">
+            ${description.substring(0, 150)}${description.length > 150 ? '...' : ''}
+          </div>
+          <div class="story-item__more-info">
+            <div class="story-item__createdat">
+              <i class="fas fa-calendar-alt"></i> ${showFormattedDate(createdAt)}
             </div>
-            <div class="report-item__location">
-              <i class="fas fa-map"></i> ${Object.values(location)}
-            </div>
+            ${
+              hasLocation
+                ? `
+            <div class="story-item__location">
+              <i class="fas fa-map-marker-alt"></i> ${lat.toFixed(4)}, ${lon.toFixed(4)}
+            </div>`
+                : ''
+            }
           </div>
         </div>
-        <div id="report-description" class="report-item__description">
-          ${description}
-        </div>
-        <div class="report-item__more-info">
-          <div class="report-item__author">
-            Dilaporkan oleh: ${reporterName}
+        <div class="story-item__more-info">
+          <div class="story-item__author">
+            Shared by: ${name || 'Guest'}
           </div>
         </div>
-        <a class="btn report-item__read-more" href="#/reports/${id}">
-          Selengkapnya <i class="fas fa-arrow-right"></i>
+        <a class="btn story-item__read-more" href="#/stories/${id}">
+          Read more <i class="fas fa-arrow-right"></i>
         </a>
       </div>
     </div>
   `;
 }
-
-export function generateDamageLevelMinorTemplate() {
-  return `
-    <span class="report-detail__damage-level__minor" data-damage-level="minor">Kerusakan Rendah</span>
-  `;
-}
-
-export function generateDamageLevelModerateTemplate() {
-  return `
-    <span class="report-detail__damage-level__moderate" data-damage-level="moderate">Kerusakan Sedang</span>
-  `;
-}
-
-export function generateDamageLevelSevereTemplate() {
-  return `
-    <span class="report-detail__damage-level__severe" data-damage-level="severe">Kerusakan Berat</span>
-  `;
-}
-
-export function generateDamageLevelBadge(damageLevel) {
-  if (damageLevel === 'minor') {
-    return generateDamageLevelMinorTemplate();
-  }
-
-  if (damageLevel === 'moderate') {
-    return generateDamageLevelModerateTemplate();
-  }
-
-  if (damageLevel === 'severe') {
-    return generateDamageLevelSevereTemplate();
-  }
-
-  return '';
-}
-
-export function generateReportDetailImageTemplate(imageUrl = null, alt = '') {
+export function generateStoryDetailImageTemplate(imageUrl = null, alt = '') {
   if (!imageUrl) {
     return `
-      <img class="report-detail__image" src="images/placeholder-image.jpg" alt="Placeholder Image">
+      <img class="story-detail__image" src="images/placeholder-image.jpg" alt="Story image">
     `;
   }
 
   return `
-    <img class="report-detail__image" src="${imageUrl}" alt="${alt}">
+    <img class="story-detail__image" src="${imageUrl}" alt="${alt}">
   `;
 }
-
-export function generateReportCommentItemTemplate({ photoUrlCommenter, nameCommenter, body }) {
-  return `
-    <article tabindex="0" class="report-detail__comment-item">
-      <img
-        class="report-detail__comment-item__photo"
-        src="${photoUrlCommenter}"
-        alt="Commenter name: ${nameCommenter}"
-      >
-      <div class="report-detail__comment-item__body">
-        <div class="report-detail__comment-item__body__more-info">
-          <div class="report-detail__comment-item__body__author">${nameCommenter}</div>
-        </div>
-        <div class="report-detail__comment-item__body__text">${body}</div>
-      </div>
-    </article>
-  `;
-}
-
-export function generateReportDetailTemplate({
-  title,
-  description,
-  damageLevel,
-  evidenceImages,
-  latitudeLocation,
-  longitudeLocation,
-  reporterName,
-  createdAt,
-}) {
-  const createdAtFormatted = showFormattedDate(createdAt, 'id-ID');
-  const damageLevelBadge = generateDamageLevelBadge(damageLevel);
-  const imagesHtml = evidenceImages.reduce(
-    (accumulator, evidenceImage) =>
-      accumulator.concat(generateReportDetailImageTemplate(evidenceImage, title)),
-    '',
-  );
+export function generateStoryDetailTemplate({ description, photoUrl, name, createdAt, lat, lon }) {
+  const createdAtFormatted = showFormattedDate(createdAt);
+  const hasLocation = lat && lon;
 
   return `
-    <div class="report-detail__header">
-      <h1 id="title" class="report-detail__title">${title}</h1>
-
-      <div class="report-detail__more-info">
-        <div class="report-detail__more-info__inline">
-          <div id="createdat" class="report-detail__createdat" data-value="${createdAtFormatted}"><i class="fas fa-calendar-alt"></i></div>
+    <div class="story-detail__header">
+      <div class="container">
+        <div class="story-detail__image-container">
+          ${generateStoryDetailImageTemplate(photoUrl, description.substring(0, 50))}
         </div>
-        <div class="report-detail__more-info__inline">
-          <div id="location-latitude" class="report-detail__location__latitude" data-value="${latitudeLocation}">Latitude:</div>
-          <div id="location-longitude" class="report-detail__location__longitude" data-value="${longitudeLocation}">Longitude:</div>
-        </div>
-        <div id="author" class="report-detail__author" data-value="${reporterName}">Dilaporkan oleh:</div>
+        <div class="story-conent">${description}</div>
       </div>
 
-      <div id="damage-level" class="report-detail__damage-level">
-        ${damageLevelBadge}
+      <div class="story-detail__author-info">
+        <div class="story-detail__author">Shared by: ${name || 'Guest'}</div>
+        <div class="story-detail__createdat">
+          <i class="fas fa-calendar-alt"></i> ${createdAtFormatted}
+        </div>
       </div>
+
+      ${
+        hasLocation
+          ? `
+        <div class="story-detail__location">
+          <button id="show-location-btn" class="btn-location" data-lat="${lat}" data-lon="${lon}">
+            <i class="fas fa-map-marker-alt"></i> Show Location
+          </button>
+        </div>
+      `
+          : ''
+      }
     </div>
 
     <div class="container">
-      <div class="report-detail__images__container">
-        <div id="images" class="report-detail__images">${imagesHtml}</div>
+      <div id="story-map-container" class="story-map-container" style="display:none">
+        <div id="story-map" class="story-map"></div>
+        <div id="map-loading"></div>
       </div>
     </div>
+  `;
+}
 
-    <div class="container">
-      <div class="report-detail__body">
-        <div class="report-detail__body__description__container">
-          <h2 class="report-detail__description__title">Informasi Lengkap</h2>
-          <div id="description" class="report-detail__description__body">
-            ${description}
-          </div>
+export function generateAddStoryFormTemplate(isGuest = false) {
+  return `
+    <div class="add-story-form">
+      <h1>${isGuest ? 'Share Your Story as Guest' : 'Share Your Story'}</h1>
+      
+      <form id="story-form">
+        <div class="form-group">
+          <label for="description">Your Story</label>
+          <textarea id="description" required placeholder="Tell your story..."></textarea>
         </div>
-        <div class="report-detail__body__map__container">
-          <h2 class="report-detail__map__title">Peta Lokasi</h2>
-          <div class="report-detail__map__container">
-            <div id="map" class="report-detail__map"></div>
-            <div id="map-loading-container"></div>
-          </div>
+        
+        <div class="form-group">
+          <label for="photo">Photo</label>
+          <input type="file" id="photo" accept="image/*" capture="environment" required>
+          <div id="photo-preview-container" class="photo-preview"></div>
+          <button type="button" id="capture-btn" class="btn btn-secondary">
+            <i class="fas fa-camera"></i> Take Photo
+          </button>
         </div>
-  
-        <hr>
-  
-        <div class="report-detail__body__actions__container">
-          <h2>Aksi</h2>
-          <div class="report-detail__actions__buttons">
-            <div id="save-actions-container"></div>
-            <div id="notify-me-actions-container">
-              <button id="report-detail-notify-me" class="btn btn-transparent">
-                Try Notify Me <i class="far fa-bell"></i>
-              </button>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="add-location"> Include Location
+          </label>
+          <div id="location-fields" class="location-fields" style="display: none;">
+            <div id="map-container" class="map-container">
+              <div id="location-map" class="location-map"></div>
+            </div>
+            <button type="button" id="get-current-location" class="btn btn-secondary">
+              <i class="fas fa-location-arrow"></i> Use Current Location
+            </button>
+            <div class="coordinates">
+              <div class="coordinate-field">
+                <label for="lat">Latitude</label>
+                <input type="number" id="lat" step="any" readonly>
+              </div>
+              <div class="coordinate-field">
+                <label for="lon">Longitude</label>
+                <input type="number" id="lon" step="any" readonly>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-share"></i> Share Story
+        </button>
+      </form>
     </div>
   `;
 }
-
-export function generateSubscribeButtonTemplate() {
+export function generateLoginFormTemplate() {
   return `
-    <button id="subscribe-button" class="btn subscribe-button">
-      Subscribe <i class="fas fa-bell"></i>
-    </button>
+    <div class="auth-form">
+      <h1>Login</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="8">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+      <p>Don't have an account? <a href="#/register">Register here</a></p>
+    </div>
   `;
 }
-
-export function generateUnsubscribeButtonTemplate() {
+export function generateRegisterFormTemplate() {
   return `
-    <button id="unsubscribe-button" class="btn unsubscribe-button">
-      Unsubscribe <i class="fas fa-bell-slash"></i>
-    </button>
-  `;
-}
-
-export function generateSaveReportButtonTemplate() {
-  return `
-    <button id="report-detail-save" class="btn btn-transparent">
-      Simpan laporan <i class="far fa-bookmark"></i>
-    </button>
-  `;
-}
-
-export function generateRemoveReportButtonTemplate() {
-  return `
-    <button id="report-detail-remove" class="btn btn-transparent">
-      Buang laporan <i class="fas fa-bookmark"></i>
-    </button>
+    <div class="auth-form">
+      <h1>Register</h1>
+      <form id="register-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="8">
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+      <p>Already have an account? <a href="#/login">Login here</a></p>
+    </div>
   `;
 }
