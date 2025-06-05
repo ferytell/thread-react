@@ -132,7 +132,7 @@ export function generateStoryItemTemplate({
 
   return `
     <div tabindex="0" class="story-item" data-storyid="${id}">
-      <img class="story-item__image" src="${photoUrl}" alt="${description.substring(0, 50)}...">
+      <img class="story-item__image" src="${photoUrl}" alt="Image with caption ${description.substring(0, 50)}...">
       <div class="story-item__body">
         <div class="story-item__main">
           <div class="story-item__description">
@@ -172,7 +172,7 @@ export function generateStoryDetailImageTemplate(imageUrl = null, alt = '') {
   }
 
   return `
-    <img class="story-detail__image" src="${imageUrl}" alt="${alt}">
+    <img class="story-detail__image" src="${imageUrl}" alt="Image with caption ${alt}">
   `;
 }
 export function generateStoryDetailTemplate({ description, photoUrl, name, createdAt, lat, lon }) {

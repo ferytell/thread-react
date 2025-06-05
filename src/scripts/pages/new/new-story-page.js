@@ -1,7 +1,5 @@
-//import NewPresenter from './new-presenter';
 import NewStoryPresenter from './new-story-presenter';
 import { convertBase64ToBlob } from '../../utils';
-import * as StoryAPI from '../../data/api';
 import { generateLoaderAbsoluteTemplate } from '../../templates';
 import Camera from '../../utils/camera';
 
@@ -131,12 +129,10 @@ export default class NewStoryPage {
   async afterRender() {
     this.#presenter = new NewStoryPresenter({
       view: this,
-      model: StoryAPI,
     });
     this.#takenPhotos = [];
     this.#togglePhotoButtons();
     this.#setupLocationToggle();
-    await this.#presenter.initMap();
     this.#setupForm();
   }
 
@@ -171,7 +167,7 @@ export default class NewStoryPage {
         return await this.#addTakenPhoto(file);
       });
       await Promise.all(uploadPromises);
-      await this.#populateTakenPhotos();
+      await this.#populateTakenPhotos('upload');
     });
 
     document.getElementById('photos-input-button').addEventListener('click', () => {
@@ -185,13 +181,13 @@ export default class NewStoryPage {
       .addEventListener('click', async (event) => {
         cameraContainer.classList.toggle('open');
         this.#isCameraOpen = cameraContainer.classList.contains('open');
+        const cameraButton = event.currentTarget;
+        cameraButton.textContent = this.#isCameraOpen ? 'Close Camera' : 'Open Camera';
 
         if (this.#isCameraOpen) {
-          event.currentTarget.textContent = 'Close Camera';
           this.#setupCamera();
           await this.#camera.launch();
         } else {
-          event.currentTarget.textContent = 'Open Camera';
           this.#camera.stop();
         }
       });
@@ -201,33 +197,15 @@ export default class NewStoryPage {
     const locationCheckbox = document.getElementById('include-location');
     const locationFields = document.getElementById('location-fields');
 
-    locationCheckbox.addEventListener('change', () => {
+    locationCheckbox.addEventListener('change', async () => {
       if (locationCheckbox.checked) {
         locationFields.style.display = 'block';
+        await this.#presenter.initMap(); // Initialize only when needed
         this.#presenter.showMap();
       } else {
         locationFields.style.display = 'none';
       }
     });
-    // locationCheckbox.addEventListener('change', async () => {
-    //   if (locationCheckbox.checked) {
-    //     locationFields.style.display = 'block';
-
-    //     // Let the DOM apply display change first
-    //     setTimeout(async () => {
-    //       await this.#presenter.showMap();
-
-    //       // After map is created, force re-render
-    //       setTimeout(() => {
-    //         if (this.#presenter.map && this.#presenter.map.invalidateSize) {
-    //           this.#presenter.map.invalidateSize();
-    //         }
-    //       }, 200); // allow time for DOM layout
-    //     }, 100); // delay for style update
-    //   } else {
-    //     locationFields.style.display = 'none';
-    //   }
-    // });
   }
   #setupCamera() {
     if (!this.#camera) {
@@ -241,7 +219,7 @@ export default class NewStoryPage {
     this.#camera.addCheeseButtonListener('#camera-take-button', async () => {
       const image = await this.#camera.takePicture();
       await this.#addTakenPhoto(image);
-      await this.#populateTakenPhotos();
+      await this.#populateTakenPhotos('camera');
       this.#closeCamera();
     });
   }
@@ -259,14 +237,15 @@ export default class NewStoryPage {
     this.#takenPhotos = [...this.#takenPhotos, newPhoto];
     this.#togglePhotoButtons();
   }
-  async #populateTakenPhotos() {
+  async #populateTakenPhotos(takenBy) {
     const html = this.#takenPhotos
       .map((photo, index) => {
         const imageUrl = URL.createObjectURL(photo.blob);
+
         return `
         <li class="new-form__photos__outputs-item">
           <button type="button" data-deletephotoid="${photo.id}" class="new-form__photos__outputs-item__delete-btn">
-            <img src="${imageUrl}" alt="Photo ${index + 1}">
+            <img src="${imageUrl}" alt="Photo Taken by ${takenBy}">
             <span class="delete-icon">&times;</span>
           </button>
         </li>
@@ -297,6 +276,11 @@ export default class NewStoryPage {
     cameraButton.textContent = 'Open Camera';
   }
   #removePhoto(id) {
+    const photo = this.#takenPhotos.find((p) => p.id === id);
+    if (photo && photo.imageUrl) {
+      URL.revokeObjectURL(photo.imageUrl);
+    }
+
     this.#takenPhotos = this.#takenPhotos.filter((photo) => photo.id !== id);
     this.#togglePhotoButtons();
   }
@@ -310,7 +294,6 @@ export default class NewStoryPage {
     } else {
       uploadButton.style.display = 'inline-block';
       cameraButton.style.display = 'inline-block';
-      //cameraContainer.style.display = 'inline-block';
     }
   }
 

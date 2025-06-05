@@ -32,6 +32,13 @@ export default class MapService {
     return this;
   }
 
+  invalidateSize() {
+    if (this.map) {
+      this.map.invalidateSize();
+    }
+    return this;
+  }
+
   setMarker(lat, lng) {
     if (this.marker) {
       this.map.removeLayer(this.marker);

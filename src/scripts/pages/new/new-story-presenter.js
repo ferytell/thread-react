@@ -1,9 +1,10 @@
 import MapService from '../../services/map-services';
+import NewStoryModel from '../../models/new-story-model';
 
-export default class NewStoryPresenter {
-  constructor({ view, model }) {
+export default class {
+  constructor({ view }) {
     this.view = view;
-    this.model = model;
+    this.model = new NewStoryModel();
     this.map = null;
     this.marker = null;
     this.mapService = new MapService('map');
@@ -19,8 +20,11 @@ export default class NewStoryPresenter {
 
   showMap() {
     console.log('showMap map iscalled');
-    this.mapService.setView(-6.35897532723566, 106.885986328125); // we set map default at jakarta hwhw
-    this.mapService.setMarker(-6.35897532723566, 106.885986328125);
+    setTimeout(() => {
+      this.mapService.setView(-6.35897532723566, 106.885986328125);
+      this.mapService.setMarker(-6.35897532723566, 106.885986328125);
+      this.mapService.invalidateSize(); // This is crucial
+    }, 50);
   }
 
   async getCurrentLocation() {
@@ -44,11 +48,8 @@ export default class NewStoryPresenter {
 
   async postNewStory(formData) {
     try {
-      // Check if user is authenticated (you'll need to implement this)
-      const token = localStorage.getItem('token'); // Or your auth method
-      console.log('formData', formData);
-      const response = await this.model.addStory(formData, token);
-
+      console.log('formData', this.model);
+      const response = await this.model.addStorys(formData);
       if (response.error) {
         this.view.showError(response.message);
       } else {

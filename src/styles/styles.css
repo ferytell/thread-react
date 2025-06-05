@@ -950,30 +950,7 @@ textarea:focus {
   height: 0px;
 }
 
-/* END OF NEW REPORT FORM */
 /*PAGINATOION*/
-.btn-load-more {
-  padding: 12px 24px;
-  background: #4a6fa5;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-load-more:hover:not(:disabled) {
-  background: #3a5a8a;
-}
-
-.btn-load-more:disabled {
-  background: #e0e0e0;
-  cursor: not-allowed;
-}
 
 .loading-spinner {
   border: 3px solid rgba(0, 0, 0, 0.1);
@@ -992,6 +969,54 @@ textarea:focus {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* ======================= LOAD MORE =================== */
+.load-more-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.btn-load-more {
+  background-color: #6366f1;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-load-more i {
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.btn-load-more:hover {
+  background-color: #4f46e5;
+}
+
+.btn-load-more:hover i.fa-arrow-down {
+  transform: translateY(5px); /* Moves down on hover */
+}
+
+.btn-load-more:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.btn-load-more:disabled i {
+  color: #999;
 }
 /* ======================= FOOTER =================== */
 footer {

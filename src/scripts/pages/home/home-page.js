@@ -5,14 +5,12 @@ import {
   generateStoriesListErrorTemplate,
   generateLoadMoreButton,
 } from '../../templates';
-import HomeStories from './home-stories';
-import * as StoryAPI from '../../data/api';
+import HomePresenter from './home-presenter';
 
 export default class HomePage {
   #stories = null;
   #currentPage = 1;
   #hasMore = true;
-  #totalPages = 1;
   #allStories = [];
 
   async render() {
@@ -23,8 +21,8 @@ export default class HomePage {
       </section>
 
       <section class="container">
-        <h1 class="section-title">Recent Stories</h1>
-        
+        <h2 class="section-title">Recent Stories</h2>
+
         <div class="stories-list__container">
           <div class="stories-list" id="stories-list"></div>
           <div id="load-more-container"></div>
@@ -35,13 +33,10 @@ export default class HomePage {
   }
 
   async afterRender() {
-    this.#stories = new HomeStories({
+    this.#stories = new HomePresenter({
       view: this,
-      model: StoryAPI,
     });
 
-    //console.log("first init ");
-    //await this.#stories.loadStories(this.#currentPage);
     await this.#loadStories();
     this.#setupLoadMore();
   }
@@ -53,8 +48,6 @@ export default class HomePage {
     try {
       const response = await this.#stories.loadStories(this.#currentPage);
       this.#hasMore = response.hasMore;
-      // await this.#stories.loadStories(this.#currentPage);
-
       this.#allStories = [...this.#allStories, ...response.listStory];
       this.populateStoriesList(this.#allStories);
 
@@ -81,12 +74,10 @@ export default class HomePage {
   }
 
   handleViewStory(story) {
-    // Handle navigation to story detail
     window.location.hash = `#/stories/${story.id}`;
   }
 
   handleStoriesLoaded(stories) {
-    // Optional: Do something with loaded stories
     console.log('Stories loaded:', stories.length);
   }
 
@@ -100,19 +91,7 @@ export default class HomePage {
     }
 
     storiesListElement.innerHTML = stories
-      .map(
-        (story) => generateStoryItemTemplate(story),
-
-        // generateStoryItemTemplate({
-        //   id: story.id,
-        //   description: story.description,
-        //   photoUrl: story.photoUrl,
-        //   name: story.name,
-        //   createdAt: story.createdAt,
-        //   lat: story.lat,
-        //   lon: story.lon,
-        // }),
-      )
+      .map((story) => generateStoryItemTemplate(story))
       .join('');
   }
 

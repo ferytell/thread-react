@@ -5,27 +5,16 @@ const ENDPOINTS = {
   // Auth
   REGISTER: `${BASE_URL}/register`,
   LOGIN: `${BASE_URL}/login`,
-  MY_USER_INFO: `${BASE_URL}/users/me`,
 
   // Stories
   ALL_STORIES: `${BASE_URL}/login`,
   STORIES_DETAIL: `${BASE_URL}/login`,
-
-  // Report
-  //REPORT_LIST: `${BASE_URL}/reports`,
-  //REPORT_DETAIL: (id) => `${BASE_URL}/reports/${id}`,
-  //STORE_NEW_REPORT: `${BASE_URL}/reports`,
   CREATE_STORY: `${BASE_URL}/stories`,
   CREATE_STORY_GUEST: `${BASE_URL}/stories/guest`,
 
   // Report Comment
   SUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
   UNSUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
-  //SEND_REPORT_TO_ME: (reportId) => `${BASE_URL}/reports/${reportId}/notify-me`,
-  //SEND_REPORT_TO_USER: (reportId) => `${BASE_URL}/reports/${reportId}/notify`,
-  //SEND_REPORT_TO_ALL_USER: (reportId) => `${BASE_URL}/reports/${reportId}/notify-all`,
-  //SEND_COMMENT_TO_REPORT_OWNER: (reportId, commentId) =>
-  //  `${BASE_URL}/reports/${reportId}/comments/${commentId}/notify`,
 };
 
 export async function getRegistered({ name, email, password }) {
@@ -77,8 +66,7 @@ export async function getMyUserInfo() {
 
 // ======================================
 
-export const addStory = async (rawFormData) => {
-  const accessToken = getAccessToken();
+export const addStory = async (rawFormData, token) => {
   try {
     const formData = new FormData();
     const isAnonymous = rawFormData.get('is_anonymous') === 'true';
@@ -88,28 +76,20 @@ export const addStory = async (rawFormData) => {
         formData.append(key, value);
       }
     }
-
     let endpoint;
     const headers = {};
 
     if (isAnonymous) {
       endpoint = ENDPOINTS.CREATE_STORY_GUEST;
     } else {
-      headers['Authorization'] = `Bearer ${accessToken}`;
+      headers['Authorization'] = `Bearer ${token}`;
       endpoint = ENDPOINTS.CREATE_STORY;
     }
-
-    //const endpoint = accessToken ? '/stories' : '/stories/guest';
-    //const headers = {};
-
-    // if (accessToken) {
-    //   headers['Authorization'] = `Bearer ${accessToken}`;
-    // }
 
     const response = await fetch(endpoint, {
       method: 'POST',
       headers,
-      body: formData, // No Content-Type header for FormData
+      body: formData,
     });
 
     return await response.json();
@@ -118,10 +98,9 @@ export const addStory = async (rawFormData) => {
   }
 };
 
-export const getStories = async (page = 1, size = 10, withLocation = false) => {
+export const getStories = async (page, size, withLocation, accessToken) => {
   console.log(page, size, withLocation);
-  const accessToken = getAccessToken();
-  //console.log();
+
   const response = await fetch(
     `${BASE_URL}/stories?page=${page}&size=${size}&location=${withLocation ? 1 : 0}`,
     {
