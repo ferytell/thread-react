@@ -84,6 +84,8 @@ export function generateMainNavigationListTemplate() {
   return `
     <li><a id="story-list-button" class="story-list-button" href="#/">All Stories</a></li>
     <li><a id="my-stories-button" class="my-stories-button" href="#/my-stories">My Stories</a></li>
+    <li><button id="toggle-notification-btn" class="toggle-notification-btn">🔕 Notifications Off</button></li>
+
   `;
 }
 export function generateUnauthenticatedNavigationListTemplate() {

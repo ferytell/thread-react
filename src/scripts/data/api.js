@@ -123,6 +123,43 @@ export const getStoryDetail = async (id) => {
   return response.json();
 };
 
+export const requesNotification = async (payload) => {
+  const accessToken = getAccessToken();
+
+  const payloadJson = JSON.stringify({
+    endpoint: payload.endpoint,
+    //keys: payload.keys,
+    keys: payload.toJSON().keys,
+  });
+  const response = await fetch(`${BASE_URL}/notifications/subscribe`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: payloadJson,
+  });
+
+  return response.json();
+};
+export const unsubcribeNotification = async (payload) => {
+  const accessToken = getAccessToken();
+
+  const payloadJson = JSON.stringify({
+    endpoint: payload.endpoint,
+    //keys: payload.toJSON().keys,
+  });
+  const response = await fetch(`${BASE_URL}/notifications/subscribe`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: payloadJson,
+  });
+
+  return response.json();
+};
 // ======================================
 
 // export async function getAllReports() {

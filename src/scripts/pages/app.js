@@ -7,12 +7,14 @@ import {
 import { setupSkipToContent, transitionHelper } from '../utils';
 import { getAccessToken, getLogout } from '../utils/auth';
 import { routes } from '../routes/routes';
+import NotificationService from '../services/notification-services';
 
 export default class App {
   #content;
   #drawerButton;
   #drawerNavigation;
   #skipLinkButton;
+  #isTransitioning = false;
 
   constructor({ content, drawerNavigation, drawerButton, skipLinkButton }) {
     this.#content = content;
@@ -26,6 +28,64 @@ export default class App {
   #init() {
     setupSkipToContent(this.#skipLinkButton, this.#content);
     this.#setupDrawer();
+    this.#registerServiceWorker();
+  }
+
+  #registerServiceWorker() {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      console.log('servvice worker searvch');
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(async (reg) => {
+          console.log('yeay Service Worker registered:', reg);
+          await this.#initPushNotifications();
+        })
+        .catch((err) => console.error('Hiks Service Worker registration failed:', err));
+    }
+  }
+
+  async #setupNotificationToggle() {
+    const btn = document.getElementById('toggle-notification-btn');
+    if (!btn) return;
+
+    const reg = await navigator.serviceWorker.ready;
+
+    const updateButton = async () => {
+      const currentSub = await reg.pushManager.getSubscription();
+      btn.textContent = currentSub ? '🔔 Notifications On' : '🔕 Notifications Off';
+    };
+
+    await updateButton();
+
+    btn.addEventListener('click', async () => {
+      const currentSub = await reg.pushManager.getSubscription();
+      if (currentSub) {
+        const result = await NotificationService.unsubscribe();
+        console.log('Unsubscribed:', result);
+      } else {
+        try {
+          await NotificationService.subscribe();
+        } catch (err) {
+          console.warn(' Failed to subscribe:', err);
+          alert('Gagal mengaktifkan notifikasi. Periksa izin browser.');
+        }
+      }
+
+      await updateButton(); // update button state after action
+    });
+  }
+
+  async #initPushNotifications() {
+    if (!('serviceWorker' in navigator && 'PushManager' in window)) return;
+
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') return;
+
+    try {
+      await NotificationService.subscribe();
+    } catch (err) {
+      console.warn('Failed to subscribe to push notifications:', err);
+    }
   }
 
   #setupDrawer() {
@@ -75,49 +135,49 @@ export default class App {
         location.hash = '/login';
       }
     });
+    this.#setupNotificationToggle();
   }
 
-  // async renderPage() {
-  //   const url = getActiveRoute();
-  //   const route = routes[url];
-
-  //   // Get page instance
-  //   const page = route();
-
-  //   const transition = transitionHelper({
-  //     updateDOM: async () => {
-  //       this.#content.innerHTML = await page.render();
-  //       page.afterRender();
-  //     },
-  //   });
-
-  //   transition.ready.catch(console.error);
-  //   transition.updateCallbackDone.then(() => {
-  //     scrollTo({ top: 0, behavior: 'instant' });
-  //     this.#setupNavigationList();
-  //   });
-  // }
   async renderPage() {
-    const url = getActiveRoute();
-    const route = routes[url];
+    if (this.#isTransitioning) return; // Skip if already transitioning
+    this.#isTransitioning = true;
+    try {
+      const url = getActiveRoute();
+      const route = routes[url];
 
-    // Get page instance
-    const page = route();
-    if (!page) console.log('hell null');
-    // ✅ Null check: user was redirected, do nothing
-    if (!page) return;
+      // Get page instance
+      const page = route();
+      if (!page) console.log('hell null');
+      // ✅ Null check: user was redirected, do nothing
+      if (!page) return;
 
-    const transition = transitionHelper({
-      updateDOM: async () => {
+      if (!document.startViewTransition) {
+        console.log('View Transitions API not supported, using fallback');
+        // Directly update DOM without transitions
         this.#content.innerHTML = await page.render();
         page.afterRender();
-      },
-    });
+        scrollTo({ top: 0, behavior: 'instant' });
+        this.#setupNavigationList();
+        return;
+      }
 
-    transition.ready.catch(console.error);
-    transition.updateCallbackDone.then(() => {
-      scrollTo({ top: 0, behavior: 'instant' });
-      this.#setupNavigationList();
-    });
+      console.log('starting ....');
+
+      const transition = transitionHelper({
+        updateDOM: async () => {
+          this.#content.innerHTML = await page.render();
+          await page.afterRender();
+          //page.afterRender();
+        },
+      });
+
+      transition.ready.catch(console.error);
+      transition.updateCallbackDone.then(() => {
+        scrollTo({ top: 0, behavior: 'instant' });
+        this.#setupNavigationList();
+      });
+    } finally {
+      this.#isTransitioning = false;
+    }
   }
 }

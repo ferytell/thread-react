@@ -1,5 +1,6 @@
 import MapService from '../../services/map-services';
 import NewStoryModel from '../../models/new-story-model';
+//import NotificationService from '../../services/notification-services';
 
 export default class {
   constructor({ view }) {
@@ -29,11 +30,10 @@ export default class {
 
   async getCurrentLocation() {
     try {
-      console.log('start');
       this.view.showMapLoading();
-      console.log('GO');
+
       const coords = await this.mapService.getCurrentPosition();
-      console.log('gett', coords);
+
       this.view.setLocation(coords.latitude, coords.longitude);
 
       this.mapService
