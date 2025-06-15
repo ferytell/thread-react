@@ -82,9 +82,8 @@ export function generateLoaderAbsoluteTemplate() {
 }
 export function generateMainNavigationListTemplate() {
   return `
-    <li><a id="story-list-button" class="story-list-button" href="#/">All Stories</a></li>
-    <li><a id="my-stories-button" class="my-stories-button" href="#/my-stories">My Stories</a></li>
-    <li><button id="toggle-notification-btn" class="toggle-notification-btn">🔕 Notifications Off</button></li>
+    <li><a id="new-story-button" class="btn new-story-button" href="#/add">Share Story <i class="fas fa-plus"></i></a></li>
+    <li><button id="toggle-notification-btn" class="btn toggle-notification-btn">🔕 Notifications Off</button></li>
 
   `;
 }
@@ -97,7 +96,7 @@ export function generateUnauthenticatedNavigationListTemplate() {
 }
 export function generateAuthenticatedNavigationListTemplate() {
   return `
-    <li><a id="new-story-button" class="btn new-story-button" href="#/add">Share Story <i class="fas fa-plus"></i></a></li>
+    
     <li><a id="logout-button" class="logout-button" href="#/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   `;
 }

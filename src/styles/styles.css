@@ -5,40 +5,43 @@
 }
 
 :root {
-  --background-color: #ffe99a;
+  --background-color: #b999cc;
   --text-color: #111111;
-  --card-bg: #ff9898;
+  --card-bg: #ce83d8;
 
-  --primary-color: #ffd586;
-  --primary-text-color: #ffffff;
-  --primary-hover-color: #6d4700;
-  --primary-shadow-color: #ffd586;
-  --border-input: #d4d4d4;
+  --primary-color: #6b48eb;
+  --primary-color-border: #291fe7;
+  --primary-text-color: #270133;
+  --primary-hover-color: #886ee7;
+  --primary-shadow-color: #492fa3;
+  --border-input: #3100e2;
   --box-shadow: rgba(0, 0, 0, 0.04);
   --box-shadow-hover: rgba(0, 0, 0, 0.2);
   --warning: #ff0000;
 
-  --secondary-color: #ff9898;
+  --secondary-color: #994fc4;
   --secondary-text-color: #351e1e;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #c95792;
+    --background-color: #0e0029;
     --text-color: #f1f1f1;
-    --card-bg: #f8b55f;
+    --card-bg: #340363;
 
-    --primary-color: #b8cfce;
+    --primary-color: #3f36e4;
+    --primary-color-border: #291fe7;
     --primary-text-color: #eaefef;
-    --primary-hover-color: #985eff;
+    --primary-hover-color: #4e46e6;
     --primary-shadow-color: #3700b3;
     --border-input: #d4d4d4;
     --box-shadow: rgba(0, 0, 0, 0.04);
     --box-shadow-hover: rgba(0, 0, 0, 0.2);
     --warning: #ff0000;
 
-    --secondary-color: #7c4585;
+    --secondary-color: #030003;
     --secondary-text-color: #b8cfce;
+    --secondary-text-color-hoover: #5005ff;
   }
 }
 
@@ -204,7 +207,7 @@ select {
 .btn.btn-transparent:focus-visible {
   outline: none;
   border-color: var(--primary-shadow-color);
-  box-shadow: 0 0 0 4px var(--primary-shadow-color);
+  box-shadow: 0 0 0 2px var(--primary-shadow-color);
 }
 
 input:focus-visible,
@@ -212,7 +215,7 @@ textarea:focus-visible,
 select:focus-visible,
 .btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px var(--primary-shadow-color);
+  box-shadow: 0 0 0 2px var(--primary-shadow-color);
 }
 
 form > .form-control:not([hidden]) ~ .form-control:not([hidden]) {
@@ -303,7 +306,7 @@ header {
 }
 
 .brand-name__link__image {
-  width: 50px;
+  width: 100px;
 }
 
 .navigation-drawer {
@@ -377,16 +380,14 @@ header {
 .navigation-drawer__navlist li button {
   width: 100%;
   padding: 6px 10px;
-
   display: flex;
   align-items: center;
   gap: 10px;
-
   text-decoration: none;
 }
 
 .navigation-drawer__navlist-main li a:hover {
-  color: #09090b;
+  color: var(--secondary-text-color-hoover);
   text-shadow: 0 0 1px black;
 }
 
@@ -402,6 +403,7 @@ header {
 .main-content {
   min-height: 70vh;
   background-color: var(--background-color);
+  color: var(--primary-text-color);
 }
 
 .main-content > :not([hidden]) ~ :not([hidden]) {
@@ -411,7 +413,7 @@ header {
 .main-content .section-title {
   text-align: center;
   font-size: 2.5rem;
-  padding-block: 50px 40px;
+  padding-block: 20px 18 px;
 }
 
 /* LOGIN, REGISTER PAGE */
@@ -547,11 +549,9 @@ header {
 /* ==================================== NEW STORY FORM ====================================*/
 /* ===== Header ===== */
 .new-story__header {
-  /* background: linear-gradient(120deg, #6366f1, #8b5cf6);*/
   color: var(--text-color);
   padding: 40px 20px;
   border-radius: 0 0 12px 12px;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
   text-align: center;
 }
 
@@ -567,7 +567,7 @@ header {
 
 /* ===== Form Layout ===== */
 .new-form__container {
-  background-color: var(--background-color);
+  background-color: var(--card-bg);
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -603,13 +603,13 @@ textarea {
 
 textarea:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: var(--primary-color);
 }
 
 /* ===== Button Styles ===== */
 .btn {
   padding: 10px 20px;
-  background-color: #6366f1;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -619,17 +619,17 @@ textarea:focus {
 }
 
 .btn:hover {
-  background-color: #4f46e5;
+  background-color: var(--primary-hover-color);
 }
 
 .btn-outline {
   background-color: transparent;
-  color: #6366f1;
-  border: 2px solid #6366f1;
+  color: var(--primary-color-border);
+  border: 2px solid var(--primary-color);
 }
 
 .btn-outline:hover {
-  background-color: #6366f1;
+  background-color: var(--primary-color);
   color: #fff;
 }
 
@@ -787,6 +787,7 @@ textarea:focus {
 .new-form__container {
   max-width: 800px;
   margin-inline: auto;
+  color: var(--primary-text-color);
 }
 
 .new-form {
