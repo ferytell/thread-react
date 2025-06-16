@@ -32,18 +32,29 @@ export default class App {
   }
 
   #registerServiceWorker() {
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-      console.log('servvice worker searvch');
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(async (reg) => {
-          console.log('yeay Service Worker registered:', reg);
-          await this.#initPushNotifications();
-        })
-        .catch((err) => console.error('Hiks Service Worker registration failed:', err));
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log('ServiceWorker registration successful');
+
+            this.#checkInstallable();
+          })
+          .catch((err) => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
     }
   }
 
+  #checkInstallable() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('Aplikasi bisa diinstall');
+      // Anda bisa menyimpan event ini untuk menampilkan button install nanti
+      this.deferredPrompt = e;
+    });
+  }
   async #setupNotificationToggle() {
     const btn = document.getElementById('toggle-notification-btn');
     if (!btn) return;

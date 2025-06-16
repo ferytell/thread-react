@@ -1,9 +1,11 @@
 import HomeModel from '../../models/home-model';
+//import NotificationService from '../../services/notification-services';
 
 export default class HomePresenter {
   constructor({ view }) {
     this.view = view;
     this.model = new HomeModel();
+    //this.notificationService = new NotificationService(apiClient);
   }
 
   async loadStories(page) {
