@@ -35,13 +35,13 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
     }),
-    new CopyPlugin({
-      patterns: [
-        { from: 'src/manifest.json', to: 'manifest.json' },
-        { from: 'src/images', to: 'images' },
-        { from: 'src/favicon.png', to: 'favicon.png' },
-      ],
-    }),
+    // new CopyPlugin({
+    //   patterns: [
+    //     { from: 'src/manifest.json', to: 'manifest.json' },
+    //     { from: 'src/images', to: 'images' },
+    //     { from: 'src/favicon.png', to: 'favicon.png' },
+    //   ],
+    // }),
     new GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
