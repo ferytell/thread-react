@@ -8,6 +8,15 @@
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "orientation": "portrait",
+  "shortcuts": [
+    {
+      "name": "Tambah Cerita",
+      "short_name": "Tambah",
+      "description": "Langsung ke halaman tambah cerita baru",
+      "url": "/share-story/#/add",
+      "icons": [{ "src": "images/add.png", "sizes": "96x96" }]
+    }
+  ],
   "icons": [
     {
       "src": "images/ShareStoryIcon.png",
@@ -48,6 +57,20 @@
       "src": "images/ShareStoryIcon.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/Screenshot-p.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/Screenshot-d.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ],
   "splash_pages": null
