@@ -83,7 +83,9 @@ export function generateLoaderAbsoluteTemplate() {
 export function generateMainNavigationListTemplate() {
   return `
     <li><a id="new-story-button" class="btn new-story-button" href="#/add">Share Story <i class="fas fa-plus"></i></a></li>
-    <li><button id="toggle-notification-btn" class="btn toggle-notification-btn">🔕 Notifications Off</button></li>
+    <li><button id="toggle-notification-btn" class="btn toggle-notification-btn">🔕</button></li>
+    <li><button id="theme-toggle" class="btn theme-toggle-btn" aria-label="Toggle Theme">☼</button></li>
+
 
   `;
 }

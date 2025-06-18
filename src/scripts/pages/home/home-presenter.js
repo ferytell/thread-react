@@ -1,5 +1,5 @@
 import HomeModel from '../../models/home-model';
-//import NotificationService from '../../services/notification-services';
+import { StoryDB } from '../../data/indexed-db';
 
 export default class HomePresenter {
   constructor({ view }) {
@@ -11,20 +11,37 @@ export default class HomePresenter {
   async loadStories(page) {
     try {
       const response = await this.model.getStories(page);
-      console.log('response=>>>', response);
+      //console.log('response=>>>', response);
 
       if (response.error) {
         this.view.populateStoriesListError(response.message);
+
+        const cachedStories = await StoryDB.getAllStories();
+        this.view.populateStoriesList(cachedStories);
+        return {
+          listStory: cachedStories,
+          hasMore: false,
+        };
       }
 
+      const stories = response.listStory || [];
+      if (page === 1) {
+        await StoryDB.clearStories(); // hapus yang lama
+      }
+      await StoryDB.putStories(stories); // simpan yang baru
+
       return {
-        listStory: response.listStory || [],
-        hasMore: response.listStory.length >= 10, // 10 items per page
+        listStory: stories,
+        hasMore: stories.length >= 10, // 10 items per page
       };
     } catch (error) {
       console.error('Error loading stories:', error);
+
+      const cachedStories = await StoryDB.getAllStories();
+      this.view.populateStoriesList(cachedStories);
+
       return {
-        listStory: [],
+        listStory: cachedStories,
         hasMore: false,
       };
     }

@@ -28,6 +28,7 @@ export default class HomePage {
           <div id="load-more-container"></div>
           <div id="stories-list-loading-container"></div>
         </div>
+       
       </section>
     `;
   }
@@ -39,6 +40,7 @@ export default class HomePage {
 
     await this.#loadStories();
     this.#setupLoadMore();
+    //this.#deleteCache();
   }
 
   async #loadStories() {
@@ -72,6 +74,13 @@ export default class HomePage {
     const container = document.getElementById('load-more-container');
     container.innerHTML = generateLoadMoreButton(this.#hasMore);
   }
+
+  // #deleteCache() {
+  //   document.getElementById('clear-stories-btn').addEventListener('click', async () => {
+  //     await StoryDB.clearStories();
+  //     alert('Cached stories cleared!');
+  //   });
+  // }
 
   handleViewStory(story) {
     window.location.hash = `#/stories/${story.id}`;

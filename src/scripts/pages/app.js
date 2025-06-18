@@ -63,7 +63,13 @@ export default class App {
 
     const updateButton = async () => {
       const currentSub = await reg.pushManager.getSubscription();
-      btn.textContent = currentSub ? '🔔 Notifications On' : '🔕 Notifications Off';
+      if (currentSub) {
+        btn.textContent = '🔔';
+        btn.title = 'Notifikasi aktif. Klik untuk menonaktifkan.';
+      } else {
+        btn.textContent = '🔕';
+        btn.title = 'Notifikasi nonaktif. Klik untuk mengaktifkan.';
+      }
     };
 
     await updateButton();
@@ -83,6 +89,29 @@ export default class App {
       }
 
       await updateButton(); // update button state after action
+    });
+  }
+
+  #buttonDarkModeToggle() {
+    const toggleBtn = document.getElementById('theme-toggle');
+    const htmlEl = document.documentElement;
+
+    if (!toggleBtn) return;
+
+    const isDark = localStorage.getItem('theme') === 'dark';
+
+    if (isDark) {
+      htmlEl.classList.add('dark');
+      toggleBtn.textContent = '⏾';
+    } else {
+      htmlEl.classList.remove('dark');
+      toggleBtn.textContent = '☼';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isNowDark = htmlEl.classList.toggle('dark');
+      toggleBtn.textContent = isNowDark ? '⏾' : '☼';
+      localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
     });
   }
 
@@ -147,6 +176,7 @@ export default class App {
       }
     });
     this.#setupNotificationToggle();
+    this.#buttonDarkModeToggle();
   }
 
   async renderPage() {
