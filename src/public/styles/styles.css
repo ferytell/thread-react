@@ -833,6 +833,12 @@ textarea:focus {
   margin-top: 30px;
 }
 
+.not-found__image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 24px;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 600px) {
   .form-buttons {

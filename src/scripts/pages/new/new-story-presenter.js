@@ -20,7 +20,6 @@ export default class {
   }
 
   showMap() {
-    console.log('showMap map iscalled');
     setTimeout(() => {
       this.mapService.setView(-6.35897532723566, 106.885986328125);
       this.mapService.setMarker(-6.35897532723566, 106.885986328125);

@@ -75,6 +75,11 @@ export default class HomePage {
     container.innerHTML = generateLoadMoreButton(this.#hasMore);
   }
 
+  #renderClearCaccheButton() {
+    const container = document.getElementById('clear-stories-btn');
+    container.innerHTML = generateLoadMoreButton(this.#hasMore);
+  }
+
   // #deleteCache() {
   //   document.getElementById('clear-stories-btn').addEventListener('click', async () => {
   //     await StoryDB.clearStories();
@@ -91,7 +96,6 @@ export default class HomePage {
   }
 
   populateStoriesList(stories) {
-    console.log('populateStoriesList called');
     const storiesListElement = document.getElementById('stories-list');
 
     if (stories.length === 0) {

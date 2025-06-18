@@ -152,7 +152,6 @@ export default class StoryDetailPage {
   }
   #destroyMap() {
     if (this.mapService) {
-      console.log('destroy mapp called');
       this.mapService.destroy();
       this.mapService = null;
     }

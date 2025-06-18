@@ -1,4 +1,5 @@
-import { getActiveRoute } from '../routes/url-parser';
+import { getActivePathname } from '../routes/url-parser';
+
 import {
   generateAuthenticatedNavigationListTemplate,
   generateMainNavigationListTemplate,
@@ -51,7 +52,6 @@ export default class App {
   #checkInstallable() {
     window.addEventListener('beforeinstallprompt', (e) => {
       console.log('Aplikasi bisa diinstall');
-      // Anda bisa menyimpan event ini untuk menampilkan button install nanti
       this.deferredPrompt = e;
     });
   }
@@ -88,7 +88,7 @@ export default class App {
         }
       }
 
-      await updateButton(); // update button state after action
+      await updateButton();
     });
   }
 
@@ -183,26 +183,17 @@ export default class App {
     if (this.#isTransitioning) return; // Skip if already transitioning
     this.#isTransitioning = true;
     try {
-      const url = getActiveRoute();
-      const route = routes[url];
-
-      // Get page instance
-      const page = route();
-      if (!page) console.log('hell null');
-      // ✅ Null check: user was redirected, do nothing
-      if (!page) return;
+      const pathname = getActivePathname();
+      const page = routes.getPage(pathname);
 
       if (!document.startViewTransition) {
         console.log('View Transitions API not supported, using fallback');
-        // Directly update DOM without transitions
         this.#content.innerHTML = await page.render();
-        page.afterRender();
+        await page.afterRender();
         scrollTo({ top: 0, behavior: 'instant' });
         this.#setupNavigationList();
         return;
       }
-
-      console.log('starting ....');
 
       const transition = transitionHelper({
         updateDOM: async () => {

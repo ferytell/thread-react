@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
   `${BASE_URL}offline.html`,
   `${BASE_URL}styles/styles.css`,
   `${BASE_URL}styles/responsives.css`,
-  `${BASE_URL}images/sharestory.png`,
+  `${BASE_URL}images/ShareStoryIcon.png`,
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
 ];

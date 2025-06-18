@@ -43,7 +43,6 @@ export default class MapService {
     if (this.marker) {
       this.map.removeLayer(this.marker);
     }
-    console.log('marker is', this.marker);
     this.marker = L.marker([lat, lng], {
       icon: L.icon({
         iconUrl: 'images/leaf-orange.png',

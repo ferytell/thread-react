@@ -1,4 +1,4 @@
-import { openDB } from 'idb';
+import { openDB, deleteDB } from 'idb';
 
 const DB_NAME = 'story-app-db';
 const DB_VERSION = 1;

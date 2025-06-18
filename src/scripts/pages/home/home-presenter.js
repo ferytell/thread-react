@@ -11,8 +11,6 @@ export default class HomePresenter {
   async loadStories(page) {
     try {
       const response = await this.model.getStories(page);
-      //console.log('response=>>>', response);
-
       if (response.error) {
         this.view.populateStoriesListError(response.message);
 
@@ -36,7 +34,7 @@ export default class HomePresenter {
       };
     } catch (error) {
       console.error('Error loading stories:', error);
-
+      console.log('StoryDB.getAllStories called');
       const cachedStories = await StoryDB.getAllStories();
       this.view.populateStoriesList(cachedStories);
 

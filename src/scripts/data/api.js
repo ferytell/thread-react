@@ -99,7 +99,7 @@ export const addStory = async (rawFormData, token) => {
 };
 
 export const getStories = async (page, size, withLocation, accessToken) => {
-  console.log(page, size, withLocation);
+  //console.log(page, size, withLocation);
 
   const response = await fetch(
     `${BASE_URL}/stories?page=${page}&size=${size}&location=${withLocation ? 1 : 0}`,
@@ -109,6 +109,7 @@ export const getStories = async (page, size, withLocation, accessToken) => {
       },
     },
   );
+
   return response.json();
 };
 

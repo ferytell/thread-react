@@ -12,7 +12,7 @@ export default class HomeModel {
       const response = await this.api.getStories(page, size, withLocation, token);
       return response;
     } catch (error) {
-      throw new Error(`Failed to post story: ${error.message}`);
+      throw new Error(`Failed to grt a story: ${error.message}`);
     }
   }
 }

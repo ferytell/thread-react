@@ -4,7 +4,6 @@ import { requesNotification, unsubcribeNotification } from '../data/api';
 
 class NotificationService {
   async subscribe() {
-    console.log('here is called 001');
     if (!('serviceWorker' in navigator && 'PushManager' in window)) {
       console.warn('Push notifications are not supported in this browser.');
       return;
