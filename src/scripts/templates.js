@@ -126,6 +126,7 @@ export function generateStoryItemTemplate({
   id,
   description,
   photoUrl,
+  photoBlob,
   name,
   createdAt,
   lat,
@@ -133,9 +134,11 @@ export function generateStoryItemTemplate({
 }) {
   const hasLocation = lat && lon;
 
+  const imageSrc = photoBlob ? URL.createObjectURL(photoBlob) : photoUrl;
+
   return `
     <div tabindex="0" class="story-item" data-storyid="${id}">
-      <img class="story-item__image" src="${photoUrl}" alt="Image with caption ${description.substring(0, 50)}...">
+      <img class="story-item__image" src="${imageSrc}" alt="Image with caption ${description.substring(0, 50)}...">
       <div class="story-item__body">
         <div class="story-item__main">
           <div class="story-item__description">

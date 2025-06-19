@@ -161,6 +161,17 @@ export const unsubcribeNotification = async (payload) => {
 
   return response.json();
 };
+
+export async function fetchImageAsBlob(url) {
+  try {
+    const response = await fetch(url);
+    return await response.blob();
+  } catch (err) {
+    console.error('Failed to fetch image as blob:', err);
+    return null;
+  }
+}
+
 // ======================================
 
 // export async function getAllReports() {

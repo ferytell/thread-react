@@ -1,4 +1,5 @@
 import { openDB, deleteDB } from 'idb';
+import { fetchImageAsBlob } from './api';
 
 const DB_NAME = 'story-app-db';
 const DB_VERSION = 1;
@@ -15,10 +16,26 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 export const StoryDB = {
   async putStories(stories) {
     const db = await dbPromise;
+
+    // 1. Ambil semua blob dulu
+    const storiesWithBlobs = await Promise.all(
+      stories.map(async (story) => {
+        const imageBlob = await fetchImageAsBlob(story.photoUrl);
+        return {
+          ...story,
+          photoBlob: imageBlob || null,
+        };
+      }),
+    );
+
+    // 2. Setelah semua blob siap, buka transaksi dan lakukan put
     const tx = db.transaction(STORE_NAME, 'readwrite');
-    for (const story of stories) {
-      tx.store.put(story);
+    const store = tx.store;
+
+    for (const story of storiesWithBlobs) {
+      store.put(story); // Tanpa await!
     }
+
     return tx.done;
   },
 
