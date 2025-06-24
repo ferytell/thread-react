@@ -73,9 +73,33 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const requestUrl = new URL(request.url);
+
+  // Skip non-GET requests and chrome-extension requests
+  if (request.method !== 'GET' || requestUrl.protocol === 'chrome-extension:') {
+    return;
+  }
+
   // Handle navigation requests
-  if (event.request.mode === 'navigate') {
-    event.respondWith(fetch(event.request).catch(() => caches.match(`${BASE_URL}offline.html`)));
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          // If we got a valid response, cache it
+          if (response.ok) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache));
+          }
+          return response;
+        })
+        .catch(() => {
+          // Return cached version or offline.html if not available
+          return caches
+            .match(request)
+            .then((response) => response || caches.match(`${BASE_URL}offline.html`));
+        }),
+    );
     return;
   }
 
@@ -114,8 +138,32 @@ self.addEventListener('fetch', (event) => {
   }
   // Default behavior for other requests
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+    caches.match(request).then((cachedResponse) => {
+      // Return cached response if available
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // Otherwise try the network
+      return fetch(request)
+        .then((response) => {
+          // Cache successful responses
+          if (response.ok) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache));
+          }
+          return response;
+        })
+        .catch(() => {
+          // For API requests, return empty response instead of failing
+          if (requestUrl.pathname.includes('/stories')) {
+            return new Response(JSON.stringify([]), {
+              headers: { 'Content-Type': 'application/json' },
+            });
+          }
+          // For other requests, return a fallback if available
+          return caches.match(request);
+        });
     }),
   );
 });

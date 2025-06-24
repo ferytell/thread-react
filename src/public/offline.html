@@ -3,40 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>You're Offline</title>
+    <title>ShareStory - Offline</title>
     <style>
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f9fafb;
-        color: #111827;
-        text-align: center;
-        padding: 2rem;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f5f5f5;
+        color: #333;
       }
       .offline-container {
+        text-align: center;
+        padding: 2rem;
         max-width: 500px;
-        margin: auto;
       }
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-      }
-      p {
-        font-size: 1rem;
-        color: #4b5563;
-      }
-      .icon {
-        font-size: 4rem;
-        color: #9ca3af;
+      .offline-icon {
+        font-size: 3rem;
         margin-bottom: 1rem;
+        color: #666;
       }
     </style>
   </head>
   <body>
     <div class="offline-container">
-      <div class="icon">📴</div>
+      <div class="offline-icon">
+        <i class="fas fa-wifi-slash"></i>
+      </div>
       <h1>You're Offline</h1>
-      <p>Sorry, it looks like you're not connected to the internet.</p>
-      <p>Please check your connection and try again later.</p>
+      <p>
+        Some features may be limited while offline. Your previously viewed content is still
+        available.
+      </p>
+      <button onclick="window.location.reload()">Retry Connection</button>
     </div>
   </body>
 </html>

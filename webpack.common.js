@@ -30,5 +30,18 @@ module.exports = {
         },
       ],
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/public/'),
+          to: path.resolve(__dirname, 'dist/'),
+        },
+        // Add this if you have a separate offline.html
+        {
+          from: path.resolve(__dirname, 'src/public/offline.html'),
+          to: path.resolve(__dirname, 'dist/offline.html'),
+        },
+      ],
+    }),
   ],
 };
