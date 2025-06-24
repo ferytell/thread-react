@@ -65,6 +65,20 @@ module.exports = merge(common, {
             },
           },
         },
+        {
+          urlPattern: /^https:\/\/(.*)\.tile\.openstreetmap\.org\/.*/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'osm-tiles-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 hari
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
       ],
     }),
   ],

@@ -1,3 +1,5 @@
+import { StoryDB } from '../../data/indexed-db';
+
 export default class StoryDetailPresenter {
   constructor(storyId, { view, model }) {
     this.storyId = storyId;
@@ -11,40 +13,32 @@ export default class StoryDetailPresenter {
       const path = window.location.hash.split('/');
       const id = path[path.length - 1];
       const response = await this.model.getStoryDetail(id);
-
+      console.log('response details', response);
       if (response.error) throw new Error(response.message);
 
       this.view.displayStory(response.story);
     } catch (error) {
-      this.view.showError(error.message);
+      console.warn('Fetch failed, trying fallback to IndexedDB');
+      const path = window.location.hash.split('/');
+      const id = path[path.length - 1];
+
+      try {
+        const allStories = await StoryDB.getAllStories();
+        const story = allStories.find((s) => s.id === id);
+
+        if (story) {
+          console.log('useing DB', story);
+          this.view.displayStory(story);
+        } else {
+          throw new Error('Data tidak ditemukan secara offline');
+        }
+      } catch (dbError) {
+        this.view.showError(dbError.message);
+      }
+
+      //this.view.showError(error.message);
     } finally {
       this.view.hideLoading();
-    }
-  }
-
-  async postComment(commentData) {
-    try {
-      this.view.showCommentLoading();
-      const response = await this.model.postComment(this.storyId, commentData);
-
-      if (response.error) throw new Error(response.message);
-
-      this.view.addNewComment(response.data);
-      this.view.clearCommentForm();
-    } catch (error) {
-      this.view.showCommentError(error.message);
-    } finally {
-      this.view.hideCommentLoading();
-    }
-  }
-
-  async toggleSaveStory() {
-    try {
-      const response = await this.model.toggleSaveStory(this.storyId);
-      if (response.error) throw new Error(response.message);
-      this.view.updateSaveButton(!response.data.isSaved);
-    } catch (error) {
-      this.view.showError(error.message);
     }
   }
 }

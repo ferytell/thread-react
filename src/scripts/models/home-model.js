@@ -10,6 +10,7 @@ export default class HomeModel {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     try {
       const response = await this.api.getStories(page, size, withLocation, token);
+      console.log('heheheheh', response);
       return response;
     } catch (error) {
       throw new Error(`Failed to grt a story: ${error.message}`);

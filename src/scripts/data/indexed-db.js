@@ -16,24 +16,31 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 export const StoryDB = {
   async putStories(stories) {
     const db = await dbPromise;
-
-    // 1. Ambil semua blob dulu
+    console.log('stories inside story DB', stories);
     const storiesWithBlobs = await Promise.all(
       stories.map(async (story) => {
         const imageBlob = await fetchImageAsBlob(story.photoUrl);
+        const lat = story.lat != null ? parseFloat(story.lat) : null;
+        const lon = story.lon != null ? parseFloat(story.lon) : null;
+        console.log('Saving story with:', {
+          id: story.id,
+          lat,
+          lon,
+        });
+
         return {
           ...story,
+          lat,
+          lon,
           photoBlob: imageBlob || null,
         };
       }),
     );
-
-    // 2. Setelah semua blob siap, buka transaksi dan lakukan put
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.store;
 
     for (const story of storiesWithBlobs) {
-      store.put(story); // Tanpa await!
+      store.put(story);
     }
 
     return tx.done;
@@ -42,6 +49,11 @@ export const StoryDB = {
   async getAllStories() {
     const db = await dbPromise;
     return db.getAll(STORE_NAME);
+  },
+
+  async getStoryById(id) {
+    const db = await dbPromise;
+    return db.get(STORE_NAME, id);
   },
 
   async clearStories() {

@@ -170,26 +170,37 @@ export function generateStoryItemTemplate({
     </div>
   `;
 }
-export function generateStoryDetailImageTemplate(imageUrl = null, alt = '') {
+export function generateStoryDetailImageTemplate(imageUrl = null, alt = '', id = '') {
   if (!imageUrl) {
     return `
-      <img class="story-detail__image" src="images/placeholder-image.jpg" alt="Story image">
+      <img id="story-img-${id}" class="story-detail__image" src="images/placeholder-image.jpg" alt="Story image">
     `;
   }
 
   return `
-    <img class="story-detail__image" src="${imageUrl}" alt="Image with caption ${alt}">
+    <img id="story-img-${id}" class="story-detail__image" src="${imageUrl}" alt="Image with caption ${alt}">
   `;
 }
-export function generateStoryDetailTemplate({ description, photoUrl, name, createdAt, lat, lon }) {
+
+export function generateStoryDetailTemplate({
+  description,
+  photoUrl,
+  photoBlob,
+  name,
+  createdAt,
+  lat,
+  lon,
+  id,
+}) {
   const createdAtFormatted = showFormattedDate(createdAt);
   const hasLocation = lat && lon;
+  const imageSrc = photoBlob ? URL.createObjectURL(photoBlob) : photoUrl;
 
   return `
     <div class="story-detail__header">
       <div class="container">
         <div class="story-detail__image-container">
-          ${generateStoryDetailImageTemplate(photoUrl, description.substring(0, 50))}
+           ${generateStoryDetailImageTemplate(imageSrc, description.substring(0, 50), id)}
         </div>
         <div class="story-conent">${description}</div>
       </div>

@@ -83,6 +83,41 @@ export default class MapService {
       );
     });
   }
+
+  addOfflineLayer() {
+    // Add an offline tile layer as fallback
+    this.offlineLayer = L.tileLayer('', {
+      maxZoom: 18,
+      attribution: 'Offline Map',
+      errorTileUrl:
+        'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#aaa" font-family="sans-serif">Offline</text></svg>',
+    }).addTo(this.map);
+
+    // Try to add the online layer first
+    this.onlineLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
+
+    // Check connectivity and switch layers accordingly
+    window.addEventListener('online', () => {
+      this.map.removeLayer(this.offlineLayer);
+      this.onlineLayer.addTo(this.map);
+    });
+
+    window.addEventListener('offline', () => {
+      this.map.removeLayer(this.onlineLayer);
+      this.offlineLayer.addTo(this.map);
+    });
+
+    // Initial check
+    if (!navigator.onLine) {
+      this.map.removeLayer(this.onlineLayer);
+      this.offlineLayer.addTo(this.map);
+    }
+  }
+
   destroy() {
     if (this.map) {
       this.map.remove();
