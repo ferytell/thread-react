@@ -30,37 +30,5 @@ module.exports = {
         },
       ],
     }),
-    new GenerateSW({
-      swDest: 'sw.js',
-      clientsClaim: true,
-      skipWaiting: true,
-      runtimeCaching: [
-        {
-          urlPattern: /^https:\/\/(.*)\.tile\.openstreetmap\.org\/.*/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'osm-tiles-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 hari
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        {
-          urlPattern: ({ request }) => request.destination === 'image',
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'image-cache',
-            expiration: {
-              maxEntries: 60,
-              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
-            },
-          },
-        },
-      ],
-    }),
   ],
 };
