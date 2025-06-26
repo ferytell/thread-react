@@ -5,7 +5,7 @@ import {
   generateStoriesListErrorTemplate,
   generateLoadMoreButton,
 } from '../../templates';
-import { BookmarkDB } from '../../data/bookmark-db';
+import { IndexedDB } from '../../data/indexed-db';
 import HomePresenter from './home-presenter';
 
 export default class HomePage {
@@ -84,7 +84,7 @@ export default class HomePage {
         const story = this.#allStories.find((s) => s.id === storyId);
 
         if (story) {
-          const isNowBookmarked = await BookmarkDB.toggleBookmark(story);
+          const isNowBookmarked = await IndexedDB.toggleBookmark(story);
 
           // Update the button appearance
           const icon = button.querySelector('i');
@@ -119,7 +119,8 @@ export default class HomePage {
     // Check bookmark status for each story
     const storiesWithBookmarks = await Promise.all(
       stories.map(async (story) => {
-        const isBookmarked = await BookmarkDB.isBookmarked(story.id);
+        const isBookmarked = await IndexedDB.isBookmarked(story.id);
+        console.log('isBookmarked', isBookmarked);
         return { ...story, isBookmarked };
       }),
     );

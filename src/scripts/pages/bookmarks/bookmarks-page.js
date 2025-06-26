@@ -5,7 +5,7 @@ import {
   generateStoriesListErrorTemplate,
   generateLoadMoreButton,
 } from '../../templates';
-import { BookmarkDB } from '../../data/bookmark-db';
+import { IndexedDB } from '../../data/indexed-db';
 
 export default class BookmarksPage {
   async render() {
@@ -42,7 +42,7 @@ export default class BookmarksPage {
   async #handleBookmarkToggle(storyId) {
     try {
       // Remove from bookmarks
-      await BookmarkDB.removeBookmark(storyId);
+      await IndexedDB.removeBookmark(storyId);
 
       // Remove from UI
       const storyElement = document.querySelector(`.story-item[data-storyid="${storyId}"]`);
@@ -75,7 +75,7 @@ export default class BookmarksPage {
     container.innerHTML = generateLoaderAbsoluteTemplate();
 
     try {
-      const bookmarks = await BookmarkDB.getBookmarkedStories();
+      const bookmarks = await IndexedDB.getBookmarkedStories();
 
       if (bookmarks.length === 0) {
         container.innerHTML = `

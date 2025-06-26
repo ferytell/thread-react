@@ -1,5 +1,5 @@
 import HomeModel from '../../models/home-model';
-import { StoryDB } from '../../data/indexed-db';
+import { IndexedDB } from '../../data/indexed-db';
 
 export default class HomePresenter {
   constructor({ view }) {
@@ -14,7 +14,7 @@ export default class HomePresenter {
       if (response.error) {
         this.view.populateStoriesListError(response.message);
 
-        const cachedStories = await StoryDB.getAllStories();
+        const cachedStories = await IndexedDB.getAllStories();
         this.view.populateStoriesList(cachedStories);
         return {
           listStory: cachedStories,
@@ -24,9 +24,9 @@ export default class HomePresenter {
 
       const stories = response.listStory || [];
       if (page === 1) {
-        await StoryDB.clearStories(); // hapus yang lama
+        await IndexedDB.clearStories(); // hapus yang lama
       }
-      await StoryDB.putStories(stories); // simpan yang baru
+      await IndexedDB.putStories(stories); // simpan yang baru
 
       return {
         listStory: stories,
@@ -34,8 +34,8 @@ export default class HomePresenter {
       };
     } catch (error) {
       console.error('Error loading stories:', error);
-      console.log('StoryDB.getAllStories called');
-      const cachedStories = await StoryDB.getAllStories();
+      console.log('IndexedDB.getAllStories called');
+      const cachedStories = await IndexedDB.getAllStories();
       this.view.populateStoriesList(cachedStories);
 
       return {

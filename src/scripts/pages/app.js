@@ -30,39 +30,81 @@ export default class App {
     setupSkipToContent(this.#skipLinkButton, this.#content);
     this.#setupDrawer();
     this.#registerServiceWorker();
+    this.#setupServiceWorkerUpdates();
   }
+
+  // #registerServiceWorker() {
+  //   if ('serviceWorker' in navigator) {
+  //     window.addEventListener('load', async () => {
+  //       // window.addEventListener('load', () => {
+  //       //   navigator.serviceWorker
+  //       //     .register('sw.js')
+  //       //     .then((registration) => {
+  //       //       console.log('ServiceWorker registration successful');
+
+  //       //       this.#checkInstallable();
+  //       //     })
+  //       //     .catch((err) => {
+  //       //       console.log('ServiceWorker registration failed: ', err);
+  //       //     });
+  //       // });
+  //       try {
+  //         const registration = await navigator.serviceWorker.register('sw.js');
+  //         console.log('✅ ServiceWorker registered:', registration);
+
+  //         // Wait until it's ready
+  //         const readyRegistration = await navigator.serviceWorker.ready;
+  //         console.log('🟢 Service Worker ready:', readyRegistration);
+
+  //         await this.#setupNotificationToggle();
+
+  //         // Now it's safe to do anything that depends on service worker
+  //         await this.#initPushNotifications();
+
+  //         this.#checkInstallable();
+  //       } catch (err) {
+  //         console.log('❌ ServiceWorker registration failed: ', err);
+  //       }
+  //     });
+  //   }
+  // }
 
   #registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
-        // window.addEventListener('load', () => {
-        //   navigator.serviceWorker
-        //     .register('sw.js')
-        //     .then((registration) => {
-        //       console.log('ServiceWorker registration successful');
-
-        //       this.#checkInstallable();
-        //     })
-        //     .catch((err) => {
-        //       console.log('ServiceWorker registration failed: ', err);
-        //     });
-        // });
         try {
-          const registration = await navigator.serviceWorker.register('sw.js');
-          console.log('✅ ServiceWorker registered:', registration);
+          const registration = await navigator.serviceWorker.register('sw.js', {
+            updateViaCache: 'none', // Always check for updates
+            scope: '/', // Ensure proper scope
+          });
 
-          // Wait until it's ready
-          const readyRegistration = await navigator.serviceWorker.ready;
-          console.log('🟢 Service Worker ready:', readyRegistration);
+          // Add this to prevent immediate takeover
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'activated') {
+                if (navigator.serviceWorker.controller) {
+                  console.log('New content available - will reload on next navigation');
+                  // Optionally show "Update available" UI instead of auto-reloading
+                }
+              }
+            });
+          });
 
           await this.#setupNotificationToggle();
-
-          // Now it's safe to do anything that depends on service worker
-          await this.#initPushNotifications();
-
           this.#checkInstallable();
         } catch (err) {
-          console.log('❌ ServiceWorker registration failed: ', err);
+          console.error('ServiceWorker registration failed:', err);
+        }
+      });
+    }
+  }
+  #setupServiceWorkerUpdates() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        // Only reload if user confirms or implement custom UI
+        if (confirm('New version available. Reload now?')) {
+          window.location.reload();
         }
       });
     }

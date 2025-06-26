@@ -1,4 +1,4 @@
-import { StoryDB } from '../../data/indexed-db';
+import { IndexedDB } from '../../data/indexed-db';
 
 export default class StoryDetailPresenter {
   constructor(storyId, { view, model }) {
@@ -23,7 +23,7 @@ export default class StoryDetailPresenter {
       const id = path[path.length - 1];
 
       try {
-        const allStories = await StoryDB.getAllStories();
+        const allStories = await IndexedDB.getAllStories();
         const story = allStories.find((s) => s.id === id);
 
         if (story) {
