@@ -83,6 +83,7 @@ export function generateLoaderAbsoluteTemplate() {
 export function generateMainNavigationListTemplate() {
   return `
     <li><a id="new-story-button" class="btn new-story-button" href="#/add">Share Story <i class="fas fa-plus"></i></a></li>
+    <li><a id="bookmarks-page-button" class="btn" href="#/bookmarks">Bookmarks <i class="fas fa-bookmark"></i></a></li>
     <li><button id="toggle-notification-btn" class="btn toggle-notification-btn">🔕</button></li>
     <li><button id="theme-toggle" class="btn theme-toggle-btn" aria-label="Toggle Theme">☼</button></li>
 
@@ -131,6 +132,7 @@ export function generateStoryItemTemplate({
   createdAt,
   lat,
   lon,
+  isBookmarked = false,
 }) {
   const hasLocation = lat && lon;
 
@@ -138,6 +140,10 @@ export function generateStoryItemTemplate({
 
   return `
     <div tabindex="0" class="story-item" data-storyid="${id}">
+      <div class="story-item__header">
+        <button class="story-item__bookmark" data-story-id="${id}" aria-label="${isBookmarked ? 'Remove bookmark' : 'Bookmark this story'}">
+          <i class="${isBookmarked ? 'fas' : 'far'} fa-bookmark"></i>
+      </div>
       <img class="story-item__image" src="${imageSrc}" alt="Image with caption ${description.substring(0, 50)}...">
       <div class="story-item__body">
         <div class="story-item__main">

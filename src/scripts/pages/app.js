@@ -34,17 +34,36 @@ export default class App {
 
   #registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker
-          .register('sw.js')
-          .then((registration) => {
-            console.log('ServiceWorker registration successful');
+      window.addEventListener('load', async () => {
+        // window.addEventListener('load', () => {
+        //   navigator.serviceWorker
+        //     .register('sw.js')
+        //     .then((registration) => {
+        //       console.log('ServiceWorker registration successful');
 
-            this.#checkInstallable();
-          })
-          .catch((err) => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
+        //       this.#checkInstallable();
+        //     })
+        //     .catch((err) => {
+        //       console.log('ServiceWorker registration failed: ', err);
+        //     });
+        // });
+        try {
+          const registration = await navigator.serviceWorker.register('sw.js');
+          console.log('✅ ServiceWorker registered:', registration);
+
+          // Wait until it's ready
+          const readyRegistration = await navigator.serviceWorker.ready;
+          console.log('🟢 Service Worker ready:', readyRegistration);
+
+          await this.#setupNotificationToggle();
+
+          // Now it's safe to do anything that depends on service worker
+          await this.#initPushNotifications();
+
+          this.#checkInstallable();
+        } catch (err) {
+          console.log('❌ ServiceWorker registration failed: ', err);
+        }
       });
     }
   }
@@ -175,7 +194,7 @@ export default class App {
         location.hash = '/login';
       }
     });
-    this.#setupNotificationToggle();
+    //this.#setupNotificationToggle();
     this.#buttonDarkModeToggle();
   }
 

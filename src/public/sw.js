@@ -2,7 +2,8 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox
 
 // const CACHE_NAME = 'sharestory-v1';
 // const BASE_URL = self.location.pathname.replace(/\/sw\.js$/, '/');
-const CACHE_NAME = 'sharestory-v2'; // Incremented version
+const CACHE_NAME = 'sharestory-safe-' + new Date().getTime();
+const SAFE_URLS = ['index.html', 'main.css', 'app.js'];
 const BASE_URL = self.location.pathname.replace(/\/sw\.js$/, '/');
 
 // right route
@@ -49,15 +50,14 @@ self.addEventListener('install', (event) => {
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        }),
-      );
-    }),
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys.map((key) => (key !== CACHE_NAME ? caches.delete(key) : Promise.resolve())),
+        ),
+      )
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -75,6 +75,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const requestUrl = new URL(request.url);
+  //console.log('Fetching:', event.request.url);
 
   // Skip non-GET requests and chrome-extension requests
   if (request.method !== 'GET' || requestUrl.protocol === 'chrome-extension:') {
@@ -94,7 +95,7 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // Return cached version or offline.html if not available
+          console.log('some cache in sw called');
           return caches
             .match(request)
             .then((response) => response || caches.match(`${BASE_URL}offline.html`));
@@ -155,13 +156,11 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // For API requests, return empty response instead of failing
           if (requestUrl.pathname.includes('/stories')) {
             return new Response(JSON.stringify([]), {
               headers: { 'Content-Type': 'application/json' },
             });
           }
-          // For other requests, return a fallback if available
           return caches.match(request);
         });
     }),

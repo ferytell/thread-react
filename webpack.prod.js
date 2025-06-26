@@ -33,53 +33,54 @@ module.exports = merge(common, {
     new CopyWebpackPlugin({
       patterns: [{ from: 'src/manifest.json', to: 'manifest.json' }],
     }),
-    new WorkboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-      runtimeCaching: [
-        {
-          // Asset
-          urlPattern: /\.(?:js|css|html|png|jpg|jpeg|svg|woff2?)$/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'assets-cache',
-            expiration: {
-              maxEntries: 60,
-              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
-            },
-          },
-        },
-        {
-          // API call to /stories
-          urlPattern: ({ url }) => url.pathname.includes('/stories'),
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'stories-api-cache',
-            networkTimeoutSeconds: 3,
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 7 * 24 * 60 * 60, // 7 hari
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        {
-          urlPattern: /^https:\/\/(.*)\.tile\.openstreetmap\.org\/.*/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'osm-tiles-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 hari
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-      ],
-    }),
+
+    // new WorkboxPlugin.GenerateSW({
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    //   runtimeCaching: [
+    //     {
+    //       // Asset
+    //       urlPattern: /\.(?:js|css|html|png|jpg|jpeg|svg|woff2?)$/,
+    //       handler: 'CacheFirst',
+    //       options: {
+    //         cacheName: 'assets-cache',
+    //         expiration: {
+    //           maxEntries: 60,
+    //           maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
+    //         },
+    //       },
+    //     },
+    //     {
+    //       // API call to /stories
+    //       urlPattern: ({ url }) => url.pathname.includes('/stories'),
+    //       handler: 'NetworkFirst',
+    //       options: {
+    //         cacheName: 'stories-api-cache',
+    //         networkTimeoutSeconds: 3,
+    //         expiration: {
+    //           maxEntries: 100,
+    //           maxAgeSeconds: 7 * 24 * 60 * 60, // 7 hari
+    //         },
+    //         cacheableResponse: {
+    //           statuses: [0, 200],
+    //         },
+    //       },
+    //     },
+    //     {
+    //       urlPattern: /^https:\/\/(.*)\.tile\.openstreetmap\.org\/.*/,
+    //       handler: 'CacheFirst',
+    //       options: {
+    //         cacheName: 'osm-tiles-cache',
+    //         expiration: {
+    //           maxEntries: 100,
+    //           maxAgeSeconds: 60 * 60 * 24 * 30, // 30 hari
+    //         },
+    //         cacheableResponse: {
+    //           statuses: [0, 200],
+    //         },
+    //       },
+    //     },
+    //   ],
+    // }),
   ],
 });

@@ -70,6 +70,9 @@ export const addStory = async (rawFormData, token) => {
       headers['Authorization'] = `Bearer ${token}`;
       endpoint = ENDPOINTS.CREATE_STORY;
     }
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
 
     const response = await fetch(endpoint, {
       method: 'POST',

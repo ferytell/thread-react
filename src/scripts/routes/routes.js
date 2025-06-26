@@ -5,6 +5,7 @@ import StoryDetailPage from '../pages/story-detail/story-detail-page';
 import NewStoryPage from '../pages/new/new-story-page';
 import InDEvelopmentPage from '../pages/story-detail/story-detail-page';
 import NotFoundPage from '../pages/404/404-page';
+import BookmarksPage from '../pages/bookmarks/bookmarks-page';
 
 import { checkAuthenticatedRoute, checkUnauthenticatedRouteOnly } from '../utils/auth';
 
@@ -13,6 +14,7 @@ export const routeHandlers = {
   '/register': () => checkUnauthenticatedRouteOnly(new RegisterPage()),
   '/': () => checkAuthenticatedRoute(new HomePage()),
   '/add': () => checkAuthenticatedRoute(new NewStoryPage()),
+  '/bookmarks': () => checkAuthenticatedRoute(new BookmarksPage()),
   '/stories/:id': () => checkAuthenticatedRoute(new StoryDetailPage()),
   '/my-stories': () => checkAuthenticatedRoute(new InDEvelopmentPage()),
 };

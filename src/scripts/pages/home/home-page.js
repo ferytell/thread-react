@@ -5,6 +5,7 @@ import {
   generateStoriesListErrorTemplate,
   generateLoadMoreButton,
 } from '../../templates';
+import { BookmarkDB } from '../../data/bookmark-db';
 import HomePresenter from './home-presenter';
 
 export default class HomePage {
@@ -40,7 +41,7 @@ export default class HomePage {
 
     await this.#loadStories();
     this.#setupLoadMore();
-    //this.#deleteCache();
+    this.#setupBookmarkHandlers();
   }
 
   async #loadStories() {
@@ -75,17 +76,29 @@ export default class HomePage {
     container.innerHTML = generateLoadMoreButton(this.#hasMore);
   }
 
-  #renderClearCaccheButton() {
-    const container = document.getElementById('clear-stories-btn');
-    container.innerHTML = generateLoadMoreButton(this.#hasMore);
-  }
+  #setupBookmarkHandlers() {
+    document.getElementById('stories-list').addEventListener('click', async (e) => {
+      if (e.target.closest('.story-item__bookmark')) {
+        const button = e.target.closest('.story-item__bookmark');
+        const storyId = button.dataset.storyId;
+        const story = this.#allStories.find((s) => s.id === storyId);
 
-  // #deleteCache() {
-  //   document.getElementById('clear-stories-btn').addEventListener('click', async () => {
-  //     await StoryDB.clearStories();
-  //     alert('Cached stories cleared!');
-  //   });
-  // }
+        if (story) {
+          const isNowBookmarked = await BookmarkDB.toggleBookmark(story);
+
+          // Update the button appearance
+          const icon = button.querySelector('i');
+          if (isNowBookmarked) {
+            icon.classList.replace('far', 'fas');
+            button.setAttribute('aria-label', 'Remove bookmark');
+          } else {
+            icon.classList.replace('fas', 'far');
+            button.setAttribute('aria-label', 'Bookmark this story');
+          }
+        }
+      }
+    });
+  }
 
   handleViewStory(story) {
     window.location.hash = `#/stories/${story.id}`;
@@ -95,13 +108,21 @@ export default class HomePage {
     console.log('Stories loaded:', stories.length);
   }
 
-  populateStoriesList(stories) {
+  async populateStoriesList(stories) {
     const storiesListElement = document.getElementById('stories-list');
 
     if (stories.length === 0) {
       this.populateStoriesListEmpty();
       return;
     }
+
+    // Check bookmark status for each story
+    const storiesWithBookmarks = await Promise.all(
+      stories.map(async (story) => {
+        const isBookmarked = await BookmarkDB.isBookmarked(story.id);
+        return { ...story, isBookmarked };
+      }),
+    );
 
     storiesListElement.innerHTML = stories
       .map((story) => generateStoryItemTemplate(story))
