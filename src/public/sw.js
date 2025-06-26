@@ -1,5 +1,8 @@
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
+
 const CACHE_NAME = 'sharestory-v1';
 const OFFLINE_URL = '/offline.html';
+const BASE_URL = '/share-story/';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -7,12 +10,16 @@ self.addEventListener('install', (event) => {
       .open(CACHE_NAME)
       .then((cache) =>
         cache.addAll([
-          '/',
-          '/index.html',
-          OFFLINE_URL,
-          '/styles/styles.css',
-          '/styles/responsives.css',
-          '/images/ShareStoryIcon.png',
+          `${BASE_URL}`,
+          `${BASE_URL}index.html`,
+          `${BASE_URL}offline.html`,
+          `${BASE_URL}styles/styles.css`,
+          `${BASE_URL}styles/responsives.css`,
+          `${BASE_URL}images/ShareStoryIcon.png`,
+          'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
+          'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css',
+          'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js',
         ]),
       )
       .then(() => self.skipWaiting()), // Optional - careful with this

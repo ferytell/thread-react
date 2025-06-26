@@ -36,10 +36,11 @@
 
 //   ],
 // });
-
+const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
@@ -67,11 +68,23 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/manifest.json', to: 'manifest.json' },
+        { from: 'src/public/images', to: 'images' },
+        { from: 'src/public/offline.html', to: 'offline.html' },
+      ],
+    }),
     new GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
     }),
   ],
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/share-story/', // Add this line
+  },
   performance: {
     hints: 'warning',
     maxAssetSize: 512000,
