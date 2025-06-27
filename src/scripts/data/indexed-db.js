@@ -96,7 +96,7 @@ export const IndexedDB = {
   // ===== MAINTENANCE =====
   async clearDatabase() {
     await deleteDB(DB_NAME);
-    window.location.reload(); // Refresh to reinitialize
+    window.location.reload();
   },
 
   async checkDatabaseHealth() {

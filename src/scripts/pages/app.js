@@ -38,21 +38,19 @@ export default class App {
       window.addEventListener('load', async () => {
         try {
           const registration = await navigator.serviceWorker.register('sw.js', {
-            updateViaCache: 'none', // Always check for updates
-            scope: '/' // Ensure proper scope
+            updateViaCache: 'none',
+            scope: '/'
           });
           // const registration = await navigator.serviceWorker.register('/share-story/sw.js', {
           //   scope: '/share-story/'
           // });
 
-          // Add this to prevent immediate takeover
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'activated') {
                 if (navigator.serviceWorker.controller) {
                   console.log('New content available - will reload on next navigation');
-                  // Optionally show "Update available" UI instead of auto-reloading
                 }
               }
             });
@@ -69,7 +67,6 @@ export default class App {
   #setupServiceWorkerUpdates() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        // Only reload if user confirms or implement custom UI
         if (confirm('New version available. Reload now?')) {
           window.location.reload();
         }
@@ -130,18 +127,14 @@ export default class App {
 
     if (isDark) {
       htmlEl.classList.add('dark');
-      //toggleBtn.textContent = '⏾';<i class="far fa-bookmark"></i>
       toggleBtn.innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
     } else {
       htmlEl.classList.remove('dark');
       toggleBtn.innerHTML = '<i class="fa fa-sun-o" aria-hidden="true"></i>';
-
-      //toggleBtn.textContent = '☼';
     }
 
     toggleBtn.addEventListener('click', () => {
       const isNowDark = htmlEl.classList.toggle('dark');
-      //toggleBtn.textContent = isNowDark ? '⏾' : '☼';
       toggleBtn.innerHTML = isNowDark
         ? '<i class="fa fa-moon-o" aria-hidden="true"></i>'
         : '<i class="fa fa-sun-o" aria-hidden="true"></i>';
@@ -210,12 +203,11 @@ export default class App {
         location.hash = '/login';
       }
     });
-    //this.#setupNotificationToggle();
     this.#buttonDarkModeToggle();
   }
 
   async renderPage() {
-    if (this.#isTransitioning) return; // Skip if already transitioning
+    if (this.#isTransitioning) return;
     this.#isTransitioning = true;
     try {
       const pathname = getActivePathname();
@@ -234,7 +226,6 @@ export default class App {
         updateDOM: async () => {
           this.#content.innerHTML = await page.render();
           await page.afterRender();
-          //page.afterRender();
         }
       });
 

@@ -4,17 +4,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-  mode: 'development', // Explicitly set mode
+  mode: 'development',
   devtool: 'eval-cheap-module-source-map',
   devServer: {
     static: {
-      directory: path.resolve(__dirname, 'dist') // Serve from dist in dev
+      directory: path.resolve(__dirname, 'dist')
     },
     open: false,
     port: 9001,
     hot: true,
     devMiddleware: {
-      writeToDisk: true // Ensure files are written to disk
+      writeToDisk: true
     },
 
     historyApiFallback: true
