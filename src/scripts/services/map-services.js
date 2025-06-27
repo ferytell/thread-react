@@ -77,9 +77,15 @@ export default class MapService {
       }
 
       navigator.geolocation.getCurrentPosition(
-        (position) => resolve(position.coords),
-
-        (error) => reject(error)
+        (position) => {
+          resolve(position.coords);
+          console.log('LAT', position.coords.latitude);
+          console.log('LON', position.coords.longitude);
+        },
+        (error) => {
+          console.error('Geolocation error:', error.message);
+          reject(error);
+        }
       );
     });
   }
