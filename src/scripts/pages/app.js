@@ -37,13 +37,13 @@ export default class App {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
-          // const registration = await navigator.serviceWorker.register('sw.js', {
-          //   updateViaCache: 'none', // Always check for updates
-          //   scope: '/', // Ensure proper scope
-          // });
-          const registration = await navigator.serviceWorker.register('/share-story/sw.js', {
-            scope: '/share-story/'
+          const registration = await navigator.serviceWorker.register('sw.js', {
+            updateViaCache: 'none', // Always check for updates
+            scope: '/' // Ensure proper scope
           });
+          // const registration = await navigator.serviceWorker.register('/share-story/sw.js', {
+          //   scope: '/share-story/'
+          // });
 
           // Add this to prevent immediate takeover
           registration.addEventListener('updatefound', () => {
