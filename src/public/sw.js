@@ -1,82 +1,55 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
 
-// Only try to precache if __WB_MANIFEST is injected (in production)
-if (typeof self.__WB_MANIFEST !== 'undefined' && Array.isArray(self.__WB_MANIFEST)) {
-  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
-} else {
-  console.warn('Skipping precache: __WB_MANIFEST is not available (likely in development)');
-}
-
 const CACHE_NAME = 'sharestory-v1';
-const OFFLINE_URL = '/offline.html';
+const BASE_PATH = '/share-story';
+const OFFLINE_URL = `${BASE_PATH}/offline.html`;
+const INDEX_URL = `${BASE_PATH}/index.html`;
 
-// Install and cache offline page and fonts
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  // For HTML page navigations (like user typing URL), use network first
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          return response || caches.match(event.request);
-        })
-        .catch(() => {
-          // Only fallback if the request wasn't precached
-          return caches.match(event.request).then((cached) => {
-            return cached || caches.match(OFFLINE_URL);
-          });
-        })
-    );
-    return;
+if (workbox) {
+  // Precache assets
+  if (Array.isArray(self.__WB_MANIFEST)) {
+    workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+  } else {
+    console.warn('__WB_MANIFEST is not an array — skipping precache');
   }
 
-  // For CSS, JS, Images: cache first
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return (
-        cachedResponse ||
-        fetch(event.request)
-          .then((networkResponse) => {
-            return caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse.clone());
-              return networkResponse;
-            });
-          })
-          .catch(() => {
-            // You could optionally return placeholder image here
-            return caches.match(OFFLINE_URL);
-          })
-      );
+  // Route fallback
+  workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL(INDEX_URL));
+
+  // Offline fallback for failed HTML fetches
+  workbox.routing.setCatchHandler(async ({ event }) => {
+    if (event.request.destination === 'document') {
+      return caches.match(OFFLINE_URL);
+    }
+    return Response.error();
+  });
+
+  // cache-first for CSS, JS, images
+  workbox.routing.registerRoute(
+    ({ request }) => ['style', 'script', 'image'].includes(request.destination),
+    new workbox.strategies.CacheFirst({
+      cacheName: CACHE_NAME,
+      plugins: [
+        new workbox.expiration.ExpirationPlugin({
+          maxEntries: 50,
+          maxAgeSeconds: 7 * 24 * 60 * 60 // 1 week
+        })
+      ]
     })
   );
-});
+} else {
+  console.warn('⚠️ Workbox failed to load.');
+}
 
-// Activate and clean old caches
+// Clean up
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) =>
+    caches.keys().then((keys) =>
       Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
+        keys.map((key) => {
+          if (key !== CACHE_NAME) return caches.delete(key);
         })
       )
     )
   );
-});
-
-// Fetch: network-first for HTML, cache-first for assets
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  // Network-first for page navigations (HTML)
-  if (event.request.mode === 'navigate') {
-    event.respondWith(fetch(event.request).catch(() => caches.match(OFFLINE_URL)));
-    return;
-  }
-
-  // Cache-first for everything else (CSS, JS, images)
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
 });
