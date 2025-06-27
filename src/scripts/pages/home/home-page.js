@@ -3,7 +3,7 @@ import {
   generateStoryItemTemplate,
   generateStoriesListEmptyTemplate,
   generateStoriesListErrorTemplate,
-  generateLoadMoreButton,
+  generateLoadMoreButton
 } from '../../templates';
 import { IndexedDB } from '../../data/indexed-db';
 import HomePresenter from './home-presenter';
@@ -36,7 +36,7 @@ export default class HomePage {
 
   async afterRender() {
     this.#stories = new HomePresenter({
-      view: this,
+      view: this
     });
 
     await this.#loadStories();
@@ -122,7 +122,7 @@ export default class HomePage {
         const isBookmarked = await IndexedDB.isBookmarked(story.id);
         console.log('isBookmarked', isBookmarked);
         return { ...story, isBookmarked };
-      }),
+      })
     );
 
     storiesListElement.innerHTML = stories

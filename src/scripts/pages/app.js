@@ -3,7 +3,7 @@ import { getActivePathname } from '../routes/url-parser';
 import {
   generateAuthenticatedNavigationListTemplate,
   generateMainNavigationListTemplate,
-  generateUnauthenticatedNavigationListTemplate,
+  generateUnauthenticatedNavigationListTemplate
 } from '../templates';
 import { setupSkipToContent, transitionHelper } from '../utils';
 import { getAccessToken, getLogout } from '../utils/auth';
@@ -33,42 +33,6 @@ export default class App {
     this.#setupServiceWorkerUpdates();
   }
 
-  // #registerServiceWorker() {
-  //   if ('serviceWorker' in navigator) {
-  //     window.addEventListener('load', async () => {
-  //       // window.addEventListener('load', () => {
-  //       //   navigator.serviceWorker
-  //       //     .register('sw.js')
-  //       //     .then((registration) => {
-  //       //       console.log('ServiceWorker registration successful');
-
-  //       //       this.#checkInstallable();
-  //       //     })
-  //       //     .catch((err) => {
-  //       //       console.log('ServiceWorker registration failed: ', err);
-  //       //     });
-  //       // });
-  //       try {
-  //         const registration = await navigator.serviceWorker.register('sw.js');
-  //         console.log('✅ ServiceWorker registered:', registration);
-
-  //         // Wait until it's ready
-  //         const readyRegistration = await navigator.serviceWorker.ready;
-  //         console.log('🟢 Service Worker ready:', readyRegistration);
-
-  //         await this.#setupNotificationToggle();
-
-  //         // Now it's safe to do anything that depends on service worker
-  //         await this.#initPushNotifications();
-
-  //         this.#checkInstallable();
-  //       } catch (err) {
-  //         console.log('❌ ServiceWorker registration failed: ', err);
-  //       }
-  //     });
-  //   }
-  // }
-
   #registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
@@ -78,7 +42,7 @@ export default class App {
           //   scope: '/', // Ensure proper scope
           // });
           const registration = await navigator.serviceWorker.register('/share-story/sw.js', {
-            scope: '/share-story/',
+            scope: '/share-story/'
           });
 
           // Add this to prevent immediate takeover
@@ -264,7 +228,7 @@ export default class App {
           this.#content.innerHTML = await page.render();
           await page.afterRender();
           //page.afterRender();
-        },
+        }
       });
 
       transition.ready.catch(console.error);

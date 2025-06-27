@@ -7,7 +7,7 @@ export function showFormattedDate(date, locale = 'en-US', options = {}) {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    ...options,
+    ...options
   });
 }
 
@@ -26,7 +26,7 @@ export async function createCarousel(containerElement, options = {}) {
     autoplay: false,
     controls: false,
 
-    ...options,
+    ...options
   });
 }
 
@@ -89,7 +89,7 @@ export function transitionHelper({ skipTransition = false, updateDOM }) {
     return {
       ready: Promise.reject(Error('View transitions unsupported')),
       updateCallbackDone,
-      finished: updateCallbackDone,
+      finished: updateCallbackDone
     };
   }
 

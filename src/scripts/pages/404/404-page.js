@@ -17,6 +17,6 @@ export default class NotFoundPage {
   }
 
   async afterRender() {
-    // You can add any additional initialization code here if needed
+    // ====
   }
 }

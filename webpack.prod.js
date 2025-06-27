@@ -50,7 +50,7 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.js$/,
@@ -58,36 +58,36 @@ module.exports = merge(common, {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
-    ],
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
+    ]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
+      filename: '[name].[contenthash].css'
     }),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/manifest.json', to: 'manifest.json' },
         { from: 'src/public/images', to: 'images' },
-        { from: 'src/public/offline.html', to: 'offline.html' },
-      ],
+        { from: 'src/public/offline.html', to: 'offline.html' }
+      ]
     }),
     new GenerateSW({
       clientsClaim: true,
-      skipWaiting: true,
-    }),
+      skipWaiting: true
+    })
   ],
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/share-story/', // Add this line
+    publicPath: '/share-story/' // Add this line
   },
   performance: {
     hints: 'warning',
     maxAssetSize: 512000,
-    maxEntrypointSize: 512000,
-  },
+    maxEntrypointSize: 512000
+  }
 });

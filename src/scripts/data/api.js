@@ -14,7 +14,7 @@ const ENDPOINTS = {
 
   // Report Comment
   SUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
-  UNSUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
+  UNSUBSCRIBE: `${BASE_URL}/notifications/subscribe`
 };
 
 export async function getRegistered({ name, email, password }) {
@@ -23,13 +23,13 @@ export async function getRegistered({ name, email, password }) {
   const fetchResponse = await fetch(ENDPOINTS.REGISTER, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: data,
+    body: data
   });
   const json = await fetchResponse.json();
 
   return {
     ...json,
-    ok: fetchResponse.ok,
+    ok: fetchResponse.ok
   };
 }
 
@@ -39,13 +39,13 @@ export async function getLogin({ email, password }) {
   const fetchResponse = await fetch(ENDPOINTS.LOGIN, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: data,
+    body: data
   });
   const json = await fetchResponse.json();
 
   return {
     ...json,
-    ok: fetchResponse.ok,
+    ok: fetchResponse.ok
   };
 }
 
@@ -77,7 +77,7 @@ export const addStory = async (rawFormData, token) => {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers,
-      body: formData,
+      body: formData
     });
 
     return await response.json();
@@ -91,9 +91,9 @@ export const getStories = async (page, size, withLocation, accessToken) => {
     `${BASE_URL}/stories?page=${page}&size=${size}&location=${withLocation ? 1 : 0}`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
   );
 
   return response.json();
@@ -104,8 +104,8 @@ export const getStoryDetail = async (id) => {
 
   const response = await fetch(`${BASE_URL}/stories/${id}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+      Authorization: `Bearer ${accessToken}`
+    }
   });
   return response.json();
 };
@@ -116,15 +116,15 @@ export const requesNotification = async (payload) => {
   const payloadJson = JSON.stringify({
     endpoint: payload.endpoint,
     //keys: payload.keys,
-    keys: payload.toJSON().keys,
+    keys: payload.toJSON().keys
   });
   const response = await fetch(`${BASE_URL}/notifications/subscribe`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${accessToken}`
     },
-    body: payloadJson,
+    body: payloadJson
   });
 
   return response.json();
@@ -133,16 +133,16 @@ export const unsubcribeNotification = async (payload) => {
   const accessToken = getAccessToken();
 
   const payloadJson = JSON.stringify({
-    endpoint: payload.endpoint,
+    endpoint: payload.endpoint
     //keys: payload.toJSON().keys,
   });
   const response = await fetch(`${BASE_URL}/notifications/subscribe`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${accessToken}`
     },
-    body: payloadJson,
+    body: payloadJson
   });
 
   return response.json();

@@ -14,7 +14,7 @@ export default class MapService {
     this.map = L.map(this.containerId).setView(this.initialCoords, this.initialZoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
     setTimeout(() => {
@@ -51,8 +51,8 @@ export default class MapService {
         shadowUrl: 'images/leaf-shadow.png',
         shadowSize: [50, 64],
         shadowAnchor: [4, 62],
-        popupAnchor: [-2, -76],
-      }),
+        popupAnchor: [-2, -76]
+      })
     }).addTo(this.map);
     return this;
   }
@@ -79,7 +79,7 @@ export default class MapService {
       navigator.geolocation.getCurrentPosition(
         (position) => resolve(position.coords),
 
-        (error) => reject(error),
+        (error) => reject(error)
       );
     });
   }
@@ -90,14 +90,14 @@ export default class MapService {
       maxZoom: 18,
       attribution: 'Offline Map',
       errorTileUrl:
-        'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#aaa" font-family="sans-serif">Offline</text></svg>',
+        'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#aaa" font-family="sans-serif">Offline</text></svg>'
     }).addTo(this.map);
 
     // Try to add the online layer first
     this.onlineLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
     // Check connectivity and switch layers accordingly

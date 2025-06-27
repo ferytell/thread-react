@@ -20,7 +20,7 @@ class NotificationService {
 
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: convertedKey,
+        applicationServerKey: convertedKey
       });
 
       const res = await requesNotification(subscription);

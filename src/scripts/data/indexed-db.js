@@ -1,12 +1,11 @@
 import { openDB, deleteDB } from 'idb';
 import { fetchImageAsBlob } from './api';
-import { DB_CONFIG } from './db-config';
 
 const DB_NAME = 'story-app-db';
-const DB_VERSION = 1; // Single version for everything
+const DB_VERSION = 1;
 const STORES = {
   STORIES: 'stories',
-  BOOKMARKS: 'bookmarks',
+  BOOKMARKS: 'bookmarks'
 };
 
 const dbPromise = openDB(DB_NAME, DB_VERSION, {
@@ -17,7 +16,7 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
     if (!db.objectStoreNames.contains(STORES.BOOKMARKS)) {
       db.createObjectStore(STORES.BOOKMARKS, { keyPath: 'storyId' });
     }
-  },
+  }
 });
 
 export const IndexedDB = {
@@ -31,9 +30,9 @@ export const IndexedDB = {
           ...story,
           lat: story.lat ? parseFloat(story.lat) : null,
           lon: story.lon ? parseFloat(story.lon) : null,
-          photoBlob: imageBlob || null,
+          photoBlob: imageBlob || null
         };
-      }),
+      })
     );
 
     const tx = db.transaction(STORES.STORES, 'readwrite');
@@ -73,7 +72,7 @@ export const IndexedDB = {
       await store.put({
         storyId: story.id,
         storyData: story,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date().toISOString()
       });
       return true; // Bookmark added
     }
@@ -105,13 +104,13 @@ export const IndexedDB = {
       const db = await dbPromise;
       return {
         ok: true,
-        stores: Array.from(db.objectStoreNames),
+        stores: Array.from(db.objectStoreNames)
       };
     } catch (error) {
       return {
         ok: false,
-        error: error.message,
+        error: error.message
       };
     }
-  },
+  }
 };

@@ -100,8 +100,8 @@ export default class Camera {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           aspectRatio: 4 / 3,
-          deviceId,
-        },
+          deviceId
+        }
       });
 
       // Show available camera after camera permission granted

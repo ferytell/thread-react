@@ -16,7 +16,7 @@ export const routeHandlers = {
   '/add': () => checkAuthenticatedRoute(new NewStoryPage()),
   '/bookmarks': () => checkAuthenticatedRoute(new BookmarksPage()),
   '/stories/:id': () => checkAuthenticatedRoute(new StoryDetailPage()),
-  '/my-stories': () => checkAuthenticatedRoute(new InDEvelopmentPage()),
+  '/my-stories': () => checkAuthenticatedRoute(new InDEvelopmentPage())
 };
 
 export const routes = {
@@ -52,5 +52,5 @@ export const routes = {
 
     // No match found, return 404 page
     return new NotFoundPage();
-  },
+  }
 };

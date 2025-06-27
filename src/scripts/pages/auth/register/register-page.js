@@ -47,7 +47,7 @@ export default class RegisterPage {
   async afterRender() {
     this.#presenter = new RegisterPresenter({
       view: this,
-      model: CityCareAPI,
+      model: CityCareAPI
     });
 
     this.#setupForm();
@@ -60,7 +60,7 @@ export default class RegisterPage {
       const data = {
         name: document.getElementById('name-input').value,
         email: document.getElementById('email-input').value,
-        password: document.getElementById('password-input').value,
+        password: document.getElementById('password-input').value
       };
       await this.#presenter.getRegistered(data);
     });

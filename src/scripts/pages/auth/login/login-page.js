@@ -42,7 +42,7 @@ export default class LoginPage {
     this.#presenter = new LoginPresenter({
       view: this,
       model: CityCareAPI,
-      authModel: AuthModel,
+      authModel: AuthModel
     });
 
     this.#setupForm();
@@ -54,7 +54,7 @@ export default class LoginPage {
 
       const data = {
         email: document.getElementById('email-input').value,
-        password: document.getElementById('password-input').value,
+        password: document.getElementById('password-input').value
       };
       await this.#presenter.getLogin(data);
     });

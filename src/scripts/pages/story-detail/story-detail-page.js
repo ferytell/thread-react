@@ -1,7 +1,7 @@
 import {
   generateStoryDetailTemplate,
   generateLoaderTemplate,
-  generateErrorTemplate,
+  generateErrorTemplate
 } from '../../templates';
 import StoryDetailPresenter from './story-detail-presenter';
 import * as StoryAPI from '../../data/api';
@@ -31,7 +31,7 @@ export default class StoryDetailPage {
   logState() {
     console.log('Page State:', {
       presenter: this.presenter,
-      storyId: this.getStoryIdFromUrl(),
+      storyId: this.getStoryIdFromUrl()
     });
   }
 
@@ -40,7 +40,7 @@ export default class StoryDetailPage {
       const storyId = this.getStoryIdFromUrl();
       this.presenter = new StoryDetailPresenter(storyId, {
         view: this,
-        model: StoryAPI,
+        model: StoryAPI
       });
 
       await this.presenter.init();
@@ -55,7 +55,7 @@ export default class StoryDetailPage {
     const storyContent = document.getElementById('story-content');
     storyContent.innerHTML = generateStoryDetailTemplate({
       ...story,
-      date: this.#formatDate(story.createdAt),
+      date: this.#formatDate(story.createdAt)
     });
 
     if (story.photoBlob) {
@@ -100,47 +100,9 @@ export default class StoryDetailPage {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric',
+      day: 'numeric'
     });
   }
-  // #setupMapButton(lat, lon) {
-  //   const showLocationBtn = document.getElementById('show-location-btn');
-  //   if (!showLocationBtn) return;
-
-  //   //showLocationBtn.addEventListener('click', async () => {
-  //   const originalClickHandler = async () => {
-  //     try {
-  //       // loading
-  //       document.getElementById('map-loading').innerHTML = generateLoaderTemplate();
-  //       document.getElementById('story-map-container').style.display = 'block';
-
-  //       if (!this.mapService) {
-  //         this.mapService = new MapService('story-map');
-  //         await this.mapService.init();
-  //       }
-
-  //       // Set map view and marker
-  //       this.mapService
-  //         .setView(lat, lon, 15)
-  //         .setMarker(lat, lon)
-  //         .addPopup('Story Location', `Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`);
-
-  //       document.getElementById('map-loading').innerHTML = '';
-  //       showLocationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Hide Location';
-
-  //       showLocationBtn.onclick = () => {
-  //         document.getElementById('story-map-container').style.display = 'none';
-  //         showLocationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Show Location';
-  //         showLocationBtn.onclick = originalClickHandler;
-  //       };
-  //     } catch (error) {
-  //       console.error('Failed to load map:', error);
-  //       document.getElementById('map-loading').innerHTML = 'Failed to load map';
-  //     }
-  //   };
-
-  //   showLocationBtn.onclick = originalClickHandler;
-  // }
 
   #setupMapButton(lat, lon) {
     const showLocationBtn = document.getElementById('show-location-btn');

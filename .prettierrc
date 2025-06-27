@@ -7,12 +7,12 @@
   "quoteProps": "consistent",
   "endOfLine": "lf",
 
-  "trailingComma": "all",
+  "trailingComma": "none",
   "bracketSpacing": true,
   "bracketSameLine": false,
   "arrowParens": "always",
 
   "proseWrap": "never",
   "htmlWhitespaceSensitivity": "css",
-  "singleAttributePerLine": false,
+  "singleAttributePerLine": false
 }

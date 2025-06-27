@@ -19,10 +19,10 @@ self.addEventListener('install', (event) => {
           'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
           'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
           'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css',
-          'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js',
-        ]),
+          'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js'
+        ])
       )
-      .then(() => self.skipWaiting()), // Optional - careful with this
+      .then(() => self.skipWaiting()) // Optional - careful with this
   );
 });
 
@@ -34,9 +34,9 @@ self.addEventListener('activate', (event) => {
           if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
-        }),
+        })
       );
-    }),
+    })
   );
 });
 

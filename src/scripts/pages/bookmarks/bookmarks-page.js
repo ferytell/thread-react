@@ -3,7 +3,7 @@ import {
   generateStoryItemTemplate,
   generateStoriesListEmptyTemplate,
   generateStoriesListErrorTemplate,
-  generateLoadMoreButton,
+  generateLoadMoreButton
 } from '../../templates';
 import { IndexedDB } from '../../data/indexed-db';
 
@@ -89,8 +89,8 @@ export default class BookmarksPage {
           .map((bookmark) =>
             generateStoryItemTemplate({
               ...bookmark.storyData,
-              isBookmarked: true,
-            }),
+              isBookmarked: true
+            })
           )
           .join('');
       }

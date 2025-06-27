@@ -128,7 +128,7 @@ export default class NewStoryPage {
 
   async afterRender() {
     this.#presenter = new NewStoryPresenter({
-      view: this,
+      view: this
     });
     this.#takenPhotos = [];
     this.#togglePhotoButtons();
@@ -212,7 +212,7 @@ export default class NewStoryPage {
       this.#camera = new Camera({
         video: document.getElementById('camera-video'),
         cameraSelect: document.getElementById('camera-select'),
-        canvas: document.getElementById('camera-canvas'),
+        canvas: document.getElementById('camera-canvas')
       });
     }
 
@@ -232,7 +232,7 @@ export default class NewStoryPage {
 
     const newPhoto = {
       id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-      blob: blob,
+      blob: blob
     };
     this.#takenPhotos = [...this.#takenPhotos, newPhoto];
     this.#togglePhotoButtons();

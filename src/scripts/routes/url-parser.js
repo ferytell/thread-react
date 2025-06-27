@@ -3,7 +3,7 @@ function extractPathnameSegments(path) {
 
   return {
     resource: splitUrl[1] || null,
-    id: splitUrl[2] || null,
+    id: splitUrl[2] || null
   };
 }
 

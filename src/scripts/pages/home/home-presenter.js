@@ -18,7 +18,7 @@ export default class HomePresenter {
         this.view.populateStoriesList(cachedStories);
         return {
           listStory: cachedStories,
-          hasMore: false,
+          hasMore: false
         };
       }
 
@@ -30,7 +30,7 @@ export default class HomePresenter {
 
       return {
         listStory: stories,
-        hasMore: stories.length >= 10, // 10 items per page
+        hasMore: stories.length >= 10 // 10 items per page
       };
     } catch (error) {
       console.error('Error loading stories:', error);
@@ -40,7 +40,7 @@ export default class HomePresenter {
 
       return {
         listStory: cachedStories,
-        hasMore: false,
+        hasMore: false
       };
     }
   }

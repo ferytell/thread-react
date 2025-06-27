@@ -132,7 +132,7 @@ export function generateStoryItemTemplate({
   createdAt,
   lat,
   lon,
-  isBookmarked = false,
+  isBookmarked = false
 }) {
   const hasLocation = lat && lon;
 
@@ -196,7 +196,7 @@ export function generateStoryDetailTemplate({
   createdAt,
   lat,
   lon,
-  id,
+  id
 }) {
   const createdAtFormatted = showFormattedDate(createdAt);
   const hasLocation = lat && lon;
