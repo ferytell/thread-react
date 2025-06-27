@@ -14,7 +14,10 @@ if (workbox) {
   }
 
   // Route fallback
-  workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL(INDEX_URL));
+  //workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL(INDEX_URL));
+  workbox.routing.registerRoute(
+    new workbox.routing.NavigationRoute(workbox.precaching.createHandlerBoundToURL(INDEX_URL))
+  );
 
   // Offline fallback for failed HTML fetches
   workbox.routing.setCatchHandler(async ({ event }) => {
