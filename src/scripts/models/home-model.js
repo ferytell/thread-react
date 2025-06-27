@@ -8,6 +8,7 @@ export default class HomeModel {
 
   async getStories(page = 1, size = 10, withLocation = false) {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+
     try {
       const response = await this.api.getStories(page, size, withLocation, token);
       console.log('heheheheh', response);

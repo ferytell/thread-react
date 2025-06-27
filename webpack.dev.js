@@ -1,5 +1,6 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -12,18 +13,22 @@ module.exports = merge(common, {
     open: false,
     port: 9001,
     hot: true,
-    // client: {
-    //   overlay: {
-    //     errors: true,
-    //     warnings: true
-    //   }
-    // },
     devMiddleware: {
       writeToDisk: true // Ensure files are written to disk
     },
 
     historyApiFallback: true
   },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/manifest.json', to: 'manifest.json' },
+        { from: 'src/public/images', to: 'images' },
+        { from: 'src/public/offline.html', to: 'offline.html' }
+      ]
+    })
+  ],
+
   module: {
     rules: [
       {
