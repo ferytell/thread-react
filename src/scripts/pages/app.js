@@ -37,13 +37,14 @@ export default class App {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
-          const registration = await navigator.serviceWorker.register('sw.js', {
+          const basePath = window.location.pathname.includes('/share-story/')
+            ? '/share-story/'
+            : '/';
+
+          const registration = await navigator.serviceWorker.register(`${basePath}sw.js`, {
             updateViaCache: 'none',
-            scope: '/'
+            scope: basePath
           });
-          // const registration = await navigator.serviceWorker.register('/share-story/sw.js', {
-          //   scope: '/share-story/'
-          // });
 
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
