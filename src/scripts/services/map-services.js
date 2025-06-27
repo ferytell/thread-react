@@ -83,6 +83,7 @@ export default class MapService {
           console.log('LON', position.coords.longitude);
         },
         (error) => {
+          console.warn('Geolocation failed, setting fallback values');
           console.error('Geolocation error:', error.message);
           reject(error);
         }
