@@ -67,11 +67,19 @@ export const IndexedDB = {
 
     if (existing) {
       await store.delete(story.id);
-      return false; // Bookmark removed
+      return false;
     } else {
+      let photoBlob = story.photoBlob;
+      if (!photoBlob) {
+        photoBlob = await fetchImageAsBlob(story.photoUrl);
+      }
+
       await store.put({
         storyId: story.id,
-        storyData: story,
+        storyData: {
+          ...story,
+          photoBlob: photoBlob || null
+        },
         createdAt: new Date().toISOString()
       });
       return true; // Bookmark added
