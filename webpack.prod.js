@@ -37,6 +37,7 @@ module.exports = merge(common, {
     new InjectManifest({
       swSrc: './src/public/sw.js',
       swDest: 'sw.js',
+      include: [/\.(html|js|css|png|jpg|svg|woff2?)$/],
       maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
     })
   ]

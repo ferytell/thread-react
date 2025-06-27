@@ -60,13 +60,14 @@ export const IndexedDB = {
   // ===== BOOKMARK OPERATIONS =====
   async toggleBookmark(story) {
     const db = await dbPromise;
-    const tx = db.transaction(STORES.BOOKMARKS, 'readwrite');
-    const store = tx.store;
 
-    const existing = await store.get(story.id);
+    const existing = await db.get(STORES.BOOKMARKS, story.id);
 
     if (existing) {
-      await store.delete(story.id);
+      // Transaction just for delete
+      const tx = db.transaction(STORES.BOOKMARKS, 'readwrite');
+      await tx.store.delete(story.id);
+      await tx.done;
       return false;
     } else {
       let photoBlob = story.photoBlob;
@@ -74,7 +75,9 @@ export const IndexedDB = {
         photoBlob = await fetchImageAsBlob(story.photoUrl);
       }
 
-      await store.put({
+      // Transaction just for put
+      const tx = db.transaction(STORES.BOOKMARKS, 'readwrite');
+      await tx.store.put({
         storyId: story.id,
         storyData: {
           ...story,
@@ -82,7 +85,8 @@ export const IndexedDB = {
         },
         createdAt: new Date().toISOString()
       });
-      return true; // Bookmark added
+      await tx.done;
+      return true;
     }
   },
 

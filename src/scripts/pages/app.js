@@ -57,7 +57,7 @@ export default class App {
             });
           });
 
-          await this.#setupNotificationToggle();
+          //await this.#setupNotificationToggle();
           this.#checkInstallable();
         } catch (err) {
           console.error('ServiceWorker registration failed:', err);
@@ -84,7 +84,6 @@ export default class App {
   async #setupNotificationToggle() {
     const btn = document.getElementById('toggle-notification-btn');
     if (!btn) return;
-
     const reg = await navigator.serviceWorker.ready;
 
     const updateButton = async () => {
@@ -108,6 +107,7 @@ export default class App {
       } else {
         try {
           await NotificationService.subscribe();
+          console.log('subscribe called');
         } catch (err) {
           console.warn(' Failed to subscribe:', err);
           alert('Gagal mengaktifkan notifikasi. Periksa izin browser.');
@@ -205,6 +205,7 @@ export default class App {
       }
     });
     this.#buttonDarkModeToggle();
+    this.#setupNotificationToggle();
   }
 
   async renderPage() {
