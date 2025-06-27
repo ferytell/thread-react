@@ -130,15 +130,22 @@ export default class App {
 
     if (isDark) {
       htmlEl.classList.add('dark');
-      toggleBtn.textContent = '⏾';
+      //toggleBtn.textContent = '⏾';<i class="far fa-bookmark"></i>
+      toggleBtn.innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
     } else {
       htmlEl.classList.remove('dark');
-      toggleBtn.textContent = '☼';
+      toggleBtn.innerHTML = '<i class="fa fa-sun-o" aria-hidden="true"></i>';
+
+      //toggleBtn.textContent = '☼';
     }
 
     toggleBtn.addEventListener('click', () => {
       const isNowDark = htmlEl.classList.toggle('dark');
-      toggleBtn.textContent = isNowDark ? '⏾' : '☼';
+      //toggleBtn.textContent = isNowDark ? '⏾' : '☼';
+      toggleBtn.innerHTML = isNowDark
+        ? '<i class="fa fa-moon-o" aria-hidden="true"></i>'
+        : '<i class="fa fa-sun-o" aria-hidden="true"></i>';
+
       localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
     });
   }

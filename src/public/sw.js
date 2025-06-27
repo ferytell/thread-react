@@ -18,6 +18,7 @@ self.addEventListener('install', (event) => {
           `${BASE_URL}images/ShareStoryIcon.png`,
           'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
           'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
+          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
           'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css',
           'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js'
         ])

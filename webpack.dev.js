@@ -12,12 +12,16 @@ module.exports = merge(common, {
     open: false,
     port: 9001,
     hot: true,
-    client: {
-      overlay: {
-        errors: true,
-        warnings: true
-      }
+    // client: {
+    //   overlay: {
+    //     errors: true,
+    //     warnings: true
+    //   }
+    // },
+    devMiddleware: {
+      writeToDisk: true // Ensure files are written to disk
     },
+
     historyApiFallback: true
   },
   module: {
@@ -27,5 +31,10 @@ module.exports = merge(common, {
         use: ['style-loader', 'css-loader']
       }
     ]
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/' // Different from production
   }
 });
