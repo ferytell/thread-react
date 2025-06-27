@@ -31,22 +31,22 @@
     />
     <script>
       // Emergency cleanup script
-      if (window.location.search.includes('clean')) {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then((regs) => {
-            regs.forEach((reg) => reg.unregister());
-            caches.keys().then((keys) => {
-              keys.forEach((key) => caches.delete(key));
-              window.location.href = window.location.href.split('?')[0];
-            });
-          });
-        }
-      }
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then((regs) => {
-          regs.forEach((reg) => console.log('SW:', reg.scope, reg.active));
-        });
-      }
+      // if (window.location.search.includes('clean')) {
+      //   if ('serviceWorker' in navigator) {
+      //     navigator.serviceWorker.getRegistrations().then((regs) => {
+      //       regs.forEach((reg) => reg.unregister());
+      //       caches.keys().then((keys) => {
+      //         keys.forEach((key) => caches.delete(key));
+      //         window.location.href = window.location.href.split('?')[0];
+      //       });
+      //     });
+      //   }
+      // }
+      // if ('serviceWorker' in navigator) {
+      //   navigator.serviceWorker.getRegistrations().then((regs) => {
+      //     regs.forEach((reg) => console.log('SW:', reg.scope, reg.active));
+      //   });
+      // }
     </script>
   </head>
   <body>
