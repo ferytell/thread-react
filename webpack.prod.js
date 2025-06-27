@@ -42,6 +42,7 @@ const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
+const isGithubPages = process.env.GITHUB_PAGES === 'true';
 
 module.exports = merge(common, {
   mode: 'production', // Explicitly set mode
@@ -83,8 +84,9 @@ module.exports = merge(common, {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: isGithubPages ? '/share-story/' : '/'
     //publicPath: '/share-story/'
-    publicPath: '/'
+    //publicPath: '/'
   },
   performance: {
     hints: 'warning',

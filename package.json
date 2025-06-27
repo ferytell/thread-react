@@ -5,8 +5,9 @@
   "description": "Aplikasi untuk share story, udah gitu aja.",
   "scripts": {
     "build": "webpack --config ./webpack.prod.js",
+    "build:gh-pages": "GITHUB_PAGES=true npm run build",
     "start-dev": "webpack serve --config ./webpack.dev.js",
-    "deploy": "gh-pages -d dist",
+    "deploy": "npm run build:gh-pages && gh-pages -d dist",
     "serve": "http-server ./dist --port 3000",
     "prettier": "prettier . --check",
     "prettier:write": "prettier . --write"
