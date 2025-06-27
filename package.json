@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Aplikasi untuk share story, udah gitu aja.",
   "scripts": {
-    "build": "GITHUB_PAGES=true webpack --config ./webpack.prod.js",
+    "build": "cross-env GITHUB_PAGES=true webpack --config ./webpack.prod.js",
     "start-dev": "webpack serve --config ./webpack.dev.js",
     "deploy": "gh-pages -d dist",
     "serve": "http-server ./dist --port 3000",

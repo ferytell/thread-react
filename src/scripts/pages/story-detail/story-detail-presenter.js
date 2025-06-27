@@ -35,8 +35,6 @@ export default class StoryDetailPresenter {
       } catch (dbError) {
         this.view.showError(dbError.message);
       }
-
-      //this.view.showError(error.message);
     } finally {
       this.view.hideLoading();
     }
