@@ -7,11 +7,11 @@ const INDEX_URL = `${BASE_PATH}/index.html`;
 
 if (workbox) {
   // Precache assets
-  if (Array.isArray(self.__WB_MANIFEST)) {
-    workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
-  } else {
-    console.warn('__WB_MANIFEST is not an array — skipping precache');
-  }
+  // if (Array.isArray(self.__WB_MANIFEST)) {
+  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+  // } else {
+  //   console.warn('__WB_MANIFEST is not an array — skipping precache');
+  // }
 
   // Route fallback
   //workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL(INDEX_URL));
@@ -41,7 +41,7 @@ if (workbox) {
     })
   );
 } else {
-  console.warn('⚠️ Workbox failed to load.');
+  console.warn('Workbox failed to load.');
 }
 
 // Clean up

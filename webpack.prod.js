@@ -35,7 +35,7 @@ module.exports = merge(common, {
       patterns: [{ from: 'src/manifest.json', to: 'manifest.json' }]
     }),
     new InjectManifest({
-      swSrc: './src/sw.js',
+      swSrc: './src/public/sw.js',
       swDest: 'sw.js',
       maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
     })
