@@ -17,6 +17,14 @@ export function generateStoriesListEmptyTemplate() {
     </div>
   `;
 }
+export function generateBookmarkListEmptyTemplate() {
+  return `
+    <div class="empty-state">
+        <i class="far fa-bookmark fa-3x"></i>
+        <p>You haven't bookmarked any stories yet</p>
+      </div>
+  `;
+}
 export function generateSaveButtonTemplate() {
   return `
     <button id="save-button" class="btn save-button">

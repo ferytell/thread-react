@@ -1,17 +1,20 @@
 import {
   generateLoaderAbsoluteTemplate,
   generateStoryItemTemplate,
-  generateStoriesListEmptyTemplate,
-  generateStoriesListErrorTemplate,
-  generateLoadMoreButton
+  generateBookmarkListEmptyTemplate
 } from '../../templates';
-import { IndexedDB } from '../../data/indexed-db';
+import BookmarksPresenter from './bookmarks-presenter';
 
 export default class BookmarksPage {
+  constructor() {
+    this.presenter = new BookmarksPresenter(this);
+    this.container = null;
+  }
+
   async render() {
     return `
       <section class="section-title">
-        <h2>Bookmarks</h1>
+        <h2>Bookmarks</h2>
       </section>
 
       <section class="container">
@@ -24,84 +27,61 @@ export default class BookmarksPage {
   }
 
   async afterRender() {
-    await this.#loadBookmarks();
-    this.#setupBookmarkHandlers();
-  }
+    this.container = document.getElementById('bookmarks-list');
+    await this.presenter.loadBookmarks();
 
-  #setupBookmarkHandlers() {
-    document.getElementById('bookmarks-list').addEventListener('click', async (e) => {
+    this.container.addEventListener('click', async (e) => {
       const bookmarkButton = e.target.closest('.story-item__bookmark');
-
       if (bookmarkButton) {
         const storyId = bookmarkButton.dataset.storyId;
-        await this.#handleBookmarkToggle(storyId);
+        await this.presenter.handleBookmarkToggle(storyId);
       }
     });
   }
 
-  async #handleBookmarkToggle(storyId) {
-    try {
-      // Remove from bookmarks
-      await IndexedDB.removeBookmark(storyId);
-
-      // Remove from UI
-      const storyElement = document.querySelector(`.story-item[data-storyid="${storyId}"]`);
-      if (storyElement) {
-        storyElement.remove();
-      }
-
-      // Check if list is now empty
-      const container = document.getElementById('bookmarks-list');
-      if (container.children.length === 0) {
-        this.#showEmptyState();
-      }
-    } catch (error) {
-      console.error('Failed to remove bookmark:', error);
-      alert('Failed to remove bookmark');
-    }
+  showLoading() {
+    this.container.innerHTML = generateLoaderAbsoluteTemplate();
   }
-  #showEmptyState() {
-    const container = document.getElementById('bookmarks-list');
-    container.innerHTML = `
-      <div class="empty-state">
-        <i class="far fa-bookmark fa-3x"></i>
-        <p>You haven't bookmarked any stories yet</p>
+
+  // showEmptyState() {
+  //   this.container.innerHTML = `
+  //     <div class="empty-state">
+  //       <i class="far fa-bookmark fa-3x"></i>
+  //       <p>You haven't bookmarked any stories yet</p>
+  //     </div>
+  //   `;
+  // }
+
+  showEmptyState() {
+    this.container.innerHTML = generateBookmarkListEmptyTemplate();
+  }
+
+  showBookmarks(bookmarks) {
+    this.container.innerHTML = bookmarks
+      .map((bookmark) =>
+        generateStoryItemTemplate({
+          ...bookmark.storyData,
+          isBookmarked: true
+        })
+      )
+      .join('');
+  }
+
+  showError() {
+    this.container.innerHTML = `
+      <div class="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Failed to load bookmarks</p>
       </div>
     `;
   }
 
-  async #loadBookmarks() {
-    const container = document.getElementById('bookmarks-list');
-    container.innerHTML = generateLoaderAbsoluteTemplate();
+  removeBookmarkFromUI(storyId) {
+    const storyElement = document.querySelector(`.story-item[data-storyid="${storyId}"]`);
+    if (storyElement) storyElement.remove();
+  }
 
-    try {
-      const bookmarks = await IndexedDB.getBookmarkedStories();
-
-      if (bookmarks.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="far fa-bookmark fa-3x"></i>
-            <p>You haven't bookmarked any stories yet</p>
-          </div>
-        `;
-      } else {
-        container.innerHTML = bookmarks
-          .map((bookmark) =>
-            generateStoryItemTemplate({
-              ...bookmark.storyData,
-              isBookmarked: true
-            })
-          )
-          .join('');
-      }
-    } catch (error) {
-      console.error('Failed to load bookmarks:', error);
-      container.innerHTML = `
-        <div class="error-state">
-          <i class="fas fa-exclamation-triangle"></i>
-          <p>Failed to load bookmarks</p>
-        </div>
-      `;
-    }
+  isListEmpty() {
+    return this.container.children.length === 0;
   }
 }
