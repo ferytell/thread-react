@@ -11,6 +11,7 @@ module.exports = merge(common, {
       directory: path.resolve(__dirname, 'dist')
     },
     open: false,
+    host: 'localhost',
     port: 9001,
     hot: true,
     devMiddleware: {
@@ -23,8 +24,7 @@ module.exports = merge(common, {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/manifest.json', to: 'manifest.json' },
-        { from: 'src/public/images', to: 'images' },
-        { from: 'src/public/offline.html', to: 'offline.html' }
+        { from: 'src/public/images', to: 'images' }
       ]
     })
   ],

@@ -39,7 +39,11 @@ self.addEventListener('install', (event) => {
 if (workbox) {
   console.log('[Service Worker] Workbox loaded successfully');
 
-  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+  try {
+    workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+  } catch (e) {
+    console.warn('Workbox precache failed ::', e);
+  }
   console.log('[Service Worker] Precaching completed');
 
   workbox.routing.registerRoute(
