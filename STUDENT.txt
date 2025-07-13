@@ -1,2 +1,1 @@
-deployment menggunakan GitHub Pages
-url:    https://ferytell.github.io/share-story/#/
+https://ferytell.github.io/share-story/#/
