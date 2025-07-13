@@ -33,6 +33,9 @@ self.addEventListener('install', (event) => {
         console.log('[Service Worker] Installation complete, skipping waiting');
         return self.skipWaiting();
       })
+      .catch((err) => {
+        console.error('[Service Worker] Failed to precache assets:', err);
+      })
   );
 });
 
