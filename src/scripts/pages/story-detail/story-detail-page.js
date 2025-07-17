@@ -36,13 +36,16 @@ export default class StoryDetailPage {
   }
 
   async afterRender() {
+    if (this._hasRendered) return;
+    this._hasRendered = true;
+
     try {
       const storyId = this.getStoryIdFromUrl();
       this.presenter = new StoryDetailPresenter(storyId, {
         view: this,
-        model: StoryAPI
+        //model: StoryAPI
       });
-
+      
       await this.presenter.init();
     } catch (error) {
       console.error('Failed to initialize story detail:', error);
@@ -92,6 +95,7 @@ export default class StoryDetailPage {
     const path = window.location.hash.split('/');
     const id = path[path.length - 1];
     if (!id || id === '#') {
+      console.log('=================================================:');
       throw new Error('Invalid story ID in URL');
     }
     return id;
